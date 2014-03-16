@@ -318,6 +318,13 @@ void perform_reachability_analysis( void ) {
     
 }
 
+/* initial the global varibale for multiple purposes */
+void update_global_variable_for_multiple_purpose (void) {
+    gall_actions = gactions;
+    gall_num_actions = gnum_actions;
+    
+}
+
 
 void update_reachability_analysis_for_multiple_purpose ( void ) {
     
@@ -383,19 +390,19 @@ void update_reachability_analysis_for_multiple_purpose ( void ) {
                         lneg[lp][adr] = 1;
                         luse[lp][adr] = 1;
                         
-                        if ( gadd_num_relevant_facts == MAX_RELEVANT_FACTS ) {
+                        if ( gnum_relevant_facts == MAX_RELEVANT_FACTS ) {
                             printf("\n too many relevant facts! increase MAX_RELEVANT_FACTS (currently %d)\n\n ", MAX_RELEVANT_FACTS);
                             exit( 1 );
                         }
                         
-                        gadd_relevant_facts[gadd_num_relevant_facts].predicate = lp;
+                        grelevant_facts[gnum_relevant_facts].predicate = lp;
                         
                         for ( j = 0; j < garity[lp]; j++ ) {
-                            gadd_relevant_facts[gadd_num_relevant_facts].args[j] = largs[j];
+                            grelevant_facts[gnum_relevant_facts].args[j] = largs[j];
                         }
                         
-                        lindex[lp][adr] = gadd_num_relevant_facts;
-                        gadd_num_relevant_facts++;
+                        lindex[lp][adr] = gnum_relevant_facts;
+                        gnum_relevant_facts++;
                         fixpoint = FALSE;
                     }
                 }
@@ -466,16 +473,16 @@ void update_reachability_analysis_for_multiple_purpose ( void ) {
                         lneg[lp][adr] = 1;
                         luse[lp][adr] = 1;
                         
-                        if ( gadd_num_relevant_facts == MAX_RELEVANT_FACTS ) {
+                        if ( gnum_relevant_facts == MAX_RELEVANT_FACTS ) {
                             printf("\ntoo many relevant facts! increase MAX_RELEVANT_FACTS (currently %d)\n\n", MAX_RELEVANT_FACTS);
                             exit( 1 );
                         }
-                        gadd_relevant_facts[gadd_num_relevant_facts].predicate = lp;
+                        grelevant_facts[gnum_relevant_facts].predicate = lp;
                         for ( k = 0; k < garity[lp]; k++ ) {
-                            gadd_relevant_facts[gadd_num_relevant_facts].args[k] = largs[k];
+                            grelevant_facts[gnum_relevant_facts].args[k] = largs[k];
                         }
-                        lindex[lp][adr] = gadd_num_relevant_facts;
-                        gadd_num_relevant_facts++;
+                        lindex[lp][adr] = gnum_relevant_facts;
+                        gnum_relevant_facts++;
                         fixpoint = FALSE;
                     } /* end if (!lpos[lp][adr]) */
                 } /* end for j < pae->num_adds */
@@ -1414,7 +1421,7 @@ void create_final_actions_for_multiple_purpose ( void ) {
                     continue;
                 }
                 
-                a->preconds[a->num_preconds++] = lindex[lp][adr];
+                a->preconds[a->num_preconds++] = lindex[lp][adr]; /* number of relevant facts */
             }
             
             if ( a->num_effects > 0 ) {
@@ -1613,8 +1620,7 @@ void create_final_actions_for_multiple_purpose ( void ) {
                 }
                 if ( i < pae->num_dels ) break;
                 
-                /* this effect is OK. go to next one in PseudoAction.
-                 */
+                /* this effect is OK. go to next one in PseudoAction. */
                 a->num_effects++;
                 lnum_effects++;
             }
@@ -2065,7 +2071,7 @@ void build_connectivity_graph( void ) {
  * jovi: update for multiple purpose              *
  * CONNECTIVITY GRAPH. ULTRA CLEAN REPRESENTATION *
  **************************************************/
-void update_connectivity_graph( void ) {
+void update_connectivity_graph_for_multiple_purpose ( void ) {
     
     int i, j, k, l, n_op, n_ef, na, nd, ef, ef_, m, l_;
     Action *a;
@@ -2114,6 +2120,7 @@ void update_connectivity_graph( void ) {
      gef_conn[i].removed = FALSE;
      }
      */
+    
     /* jovi: continue from gnum_actions */
     n_op = gnum_actions;
     n_ef = lnum_effects;
@@ -2245,6 +2252,7 @@ void update_connectivity_graph( void ) {
             
             for ( j = 0; j < sn; j++ ) {
                 e_ = &(a->effects[same_effects[j]]);
+                
                 for ( l = 0; l < e_->num_adds; l++ ) {
                     
                     for ( k = 0; k < gef_conn[n_ef].num_A; k++ ) {

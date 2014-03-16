@@ -28,6 +28,10 @@
 		02CD367918D38C5300D0C84E /* scan-mul_pddl.y in Sources */ = {isa = PBXBuildFile; fileRef = 02CD365718D38C5300D0C84E /* scan-mul_pddl.y */; };
 		02CD367A18D38C5300D0C84E /* scan-ops_pddl.y in Sources */ = {isa = PBXBuildFile; fileRef = 02CD365818D38C5300D0C84E /* scan-ops_pddl.y */; };
 		02CD367B18D38C5300D0C84E /* search.c in Sources */ = {isa = PBXBuildFile; fileRef = 02CD365918D38C5300D0C84E /* search.c */; };
+		02CD367E18D647A300D0C84E /* lex.ops_pddl.c in Sources */ = {isa = PBXBuildFile; fileRef = 02CD367D18D647A300D0C84E /* lex.ops_pddl.c */; };
+		02CD368218D647CE00D0C84E /* lex.mul_pddl.c in Sources */ = {isa = PBXBuildFile; fileRef = 02CD367F18D647CE00D0C84E /* lex.mul_pddl.c */; };
+		02CD368318D647CE00D0C84E /* scan-mul_pddl.tab.c in Sources */ = {isa = PBXBuildFile; fileRef = 02CD368018D647CE00D0C84E /* scan-mul_pddl.tab.c */; };
+		02CD368418D647CE00D0C84E /* scan-ops_pddl.tab.c in Sources */ = {isa = PBXBuildFile; fileRef = 02CD368118D647CE00D0C84E /* scan-ops_pddl.tab.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -82,6 +86,10 @@
 		02CD365818D38C5300D0C84E /* scan-ops_pddl.y */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.yacc; path = "scan-ops_pddl.y"; sourceTree = "<group>"; };
 		02CD365918D38C5300D0C84E /* search.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = search.c; sourceTree = "<group>"; };
 		02CD365A18D38C5300D0C84E /* search.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = search.h; sourceTree = "<group>"; };
+		02CD367D18D647A300D0C84E /* lex.ops_pddl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lex.ops_pddl.c; sourceTree = "<group>"; };
+		02CD367F18D647CE00D0C84E /* lex.mul_pddl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lex.mul_pddl.c; sourceTree = "<group>"; };
+		02CD368018D647CE00D0C84E /* scan-mul_pddl.tab.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "scan-mul_pddl.tab.c"; sourceTree = "<group>"; };
+		02CD368118D647CE00D0C84E /* scan-ops_pddl.tab.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "scan-ops_pddl.tab.c"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +119,9 @@
 				02CD363918D38C5300D0C84E /* inst_pre.c */,
 				02CD363A18D38C5300D0C84E /* inst_pre.h */,
 				02CD363C18D38C5300D0C84E /* lex-fct_pddl.l */,
+				02CD367F18D647CE00D0C84E /* lex.mul_pddl.c */,
+				02CD368018D647CE00D0C84E /* scan-mul_pddl.tab.c */,
+				02CD368118D647CE00D0C84E /* scan-ops_pddl.tab.c */,
 				02CD363D18D38C5300D0C84E /* lex-mul_pddl.l */,
 				02CD363E18D38C5300D0C84E /* lex-ops_pddl.l */,
 				02CD363F18D38C5300D0C84E /* lex.fct_pddl.c */,
@@ -126,6 +137,7 @@
 				02CD364D18D38C5300D0C84E /* p_2_2.pddl */,
 				02CD364E18D38C5300D0C84E /* p1.pddl */,
 				02CD364F18D38C5300D0C84E /* parse.c */,
+				02CD367D18D647A300D0C84E /* lex.ops_pddl.c */,
 				02CD365018D38C5300D0C84E /* parse.h */,
 				02CD365218D38C5300D0C84E /* relax.c */,
 				02CD365318D38C5300D0C84E /* relax.h */,
@@ -207,6 +219,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				02CD368418D647CE00D0C84E /* scan-ops_pddl.tab.c in Sources */,
 				02CD366A18D38C5300D0C84E /* main.c in Sources */,
 				02CD366C18D38C5300D0C84E /* makefile in Sources */,
 				02CD366218D38C5300D0C84E /* inst_hard.c in Sources */,
@@ -214,9 +227,12 @@
 				02CD367918D38C5300D0C84E /* scan-mul_pddl.y in Sources */,
 				02CD367A18D38C5300D0C84E /* scan-ops_pddl.y in Sources */,
 				02CD367518D38C5300D0C84E /* relax.c in Sources */,
+				02CD367E18D647A300D0C84E /* lex.ops_pddl.c in Sources */,
 				02CD367118D38C5300D0C84E /* output.c in Sources */,
 				02CD365C18D38C5300D0C84E /* fip.c in Sources */,
 				02CD366818D38C5300D0C84E /* lex-ops_pddl.l in Sources */,
+				02CD368218D647CE00D0C84E /* lex.mul_pddl.c in Sources */,
+				02CD368318D647CE00D0C84E /* scan-mul_pddl.tab.c in Sources */,
 				02CD366618D38C5300D0C84E /* lex-fct_pddl.l in Sources */,
 				02CD365E18D38C5300D0C84E /* inst_easy.c in Sources */,
 				02CD367718D38C5300D0C84E /* scan-fct_pddl.tab.c in Sources */,

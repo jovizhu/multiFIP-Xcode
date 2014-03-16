@@ -13,7 +13,7 @@ CC      = gcc
 
 #CFLAGS	= -O6 -Wall -g -ansi $(TYPE) $(ADDONS) 
 ifeq ($(UNAME),Darwin) # Mac OS
-CFLAGS = -O3 -g -stdlib=libstdc++ -ansi $(TYPE) $(ADDONS) 
+CFLAGS = -O3 -v -g -ansi $(TYPE) $(ADDONS) 
 endif
 
 ifeq ($(UNAME), Linux) # Linux
@@ -21,7 +21,7 @@ CFLAGS = -O6 -g -w -ansi $(TYPE) $(ADDONS)
 endif
 # -g -pg
 
-LIBS    = -lm -lstdc++
+LIBS    = -lm 
 
 
 ####### Files

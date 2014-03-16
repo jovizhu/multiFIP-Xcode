@@ -741,9 +741,9 @@ VARIABLE  typed_list_variable        /* a list element (gets type from next one)
  * call	bison -pops -bscan-ops scan-ops.y
  */
 
-/* void opserr( int errno, char *par ) */
+void opserr( int errno, char *par ) 
 
-/*{*/
+{
 
 /*   sact_err = errno; */
 
@@ -757,7 +757,7 @@ VARIABLE  typed_list_variable        /* a list element (gets type from next one)
 /*     sact_err_par = NULL; */
 /*   } */
 
-/*} */
+}
   
 
 

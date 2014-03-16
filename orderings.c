@@ -126,7 +126,7 @@ void compute_goal_agenda_for_multiple_purpose ( void ){
    *  lch:  :  ft that being chaged
    */
   int i;
-  int max = gadd_num_ef_conn > gadd_num_ft_conn ? gadd_num_ef_conn : gadd_num_ft_conn;
+  int max = gnum_ef_conn > gnum_ft_conn ? gnum_ef_conn : gnum_ft_conn;
   
   /* initialization stuff */
   lch = ( int * ) calloc( max, sizeof( int ) );
@@ -135,8 +135,8 @@ void compute_goal_agenda_for_multiple_purpose ( void ){
     lin_ch[i] = FALSE;
   }
 
-  lDcount = ( int * ) calloc( gadd_num_ft_conn, sizeof( int ) );
-  for ( i = 0; i < gadd_num_ft_conn; i++ ) {
+  lDcount = ( int * ) calloc( gnum_ft_conn, sizeof( int ) );
+  for ( i = 0; i < gnum_ft_conn; i++ ) {
     lDcount[i] = 0;
   }
 
@@ -363,8 +363,8 @@ void detect_ordering_constraints_for_multiple_purpose ( void ) {
   int i, j, n = gadd_goal_state.num_F;
 
   /* initialize usability array */
-  lin = ( Bool * ) calloc( gadd_num_ef_conn, sizeof( Bool ) );
-  for ( i = 0; i < gadd_num_ef_conn; i++ ) {
+  lin = ( Bool * ) calloc( gnum_ef_conn, sizeof( Bool ) );
+  for ( i = 0; i < gnum_ef_conn; i++ ) {
     lin[i] = TRUE;
   }
 
@@ -777,8 +777,8 @@ void build_goal_agenda_for_multiple_purpose ( void ) {
   /* sweep over and collect goal agenda */
   gadd_goal_agenda = ( State * ) calloc( n, sizeof( State ) );
   for ( i = 0; i < n; i++ ) {
-    make_state( &(gadd_goal_agenda[i]), gadd_num_ft_conn );
-    gadd_goal_agenda[i].max_F = gadd_num_ft_conn;
+    make_state( &(gadd_goal_agenda[i]), gnum_ft_conn );
+    gadd_goal_agenda[i].max_F = gnum_ft_conn;
   }
 
   start = 0;

@@ -7,32 +7,32 @@
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- * 
+ *
  *********************************************************************/
 
 
 /*
- * THIS SOURCE CODE IS SUPPLIED  ``AS IS'' WITHOUT WARRANTY OF ANY KIND, 
- * AND ITS AUTHOR AND THE JOURNAL OF ARTIFICIAL INTELLIGENCE RESEARCH 
- * (JAIR) AND JAIR'S PUBLISHERS AND DISTRIBUTORS, DISCLAIM ANY AND ALL 
+ * THIS SOURCE CODE IS SUPPLIED  ``AS IS'' WITHOUT WARRANTY OF ANY KIND,
+ * AND ITS AUTHOR AND THE JOURNAL OF ARTIFICIAL INTELLIGENCE RESEARCH
+ * (JAIR) AND JAIR'S PUBLISHERS AND DISTRIBUTORS, DISCLAIM ANY AND ALL
  * WARRANTIES, INCLUDING BUT NOT LIMITED TO ANY IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, AND
  * ANY WARRANTIES OR NON INFRINGEMENT.  THE USER ASSUMES ALL LIABILITY AND
  * RESPONSIBILITY FOR USE OF THIS SOURCE CODE, AND NEITHER THE AUTHOR NOR
- * JAIR, NOR JAIR'S PUBLISHERS AND DISTRIBUTORS, WILL BE LIABLE FOR 
- * DAMAGES OF ANY KIND RESULTING FROM ITS USE.  Without limiting the 
+ * JAIR, NOR JAIR'S PUBLISHERS AND DISTRIBUTORS, WILL BE LIABLE FOR
+ * DAMAGES OF ANY KIND RESULTING FROM ITS USE.  Without limiting the
  * generality of the foregoing, neither the author, nor JAIR, nor JAIR's
- * publishers and distributors, warrant that the Source Code will be 
- * error-free, will operate without interruption, or will meet the needs 
+ * publishers and distributors, warrant that the Source Code will be
+ * error-free, will operate without interruption, or will meet the needs
  * of the user.
  */
 
@@ -47,21 +47,12 @@
  * Author: Joerg Hoffmann 2000
  * Contact: hoffmann@informatik.uni-freiburg.de
  *
- *********************************************************************/ 
-
-
-
-
-
+ *********************************************************************/
 
 
 
 #ifndef __FF_H
 #define __FF_H
-
-
-
-
 
 
 #include <stdlib.h>
@@ -77,20 +68,9 @@
 #include <time.h>
 
 
-
-
 /*
  *  ------------------------------------ DEFINES ----------------------------
  */
-
-
-
-
-
-
-
-
-
 
 
 /***********************
@@ -98,27 +78,13 @@
  ***********************/
 
 
-
-
 /* strcmp returns 0 if two strings are equal, which is not nice */
 #define SAME 0
-
-
-
-
-
 
 
 /****************
  * PARSING ETC. *
  ****************/
-
-
-
-
-
-
-
 
 
 /* various defines used in parsing
@@ -131,29 +97,17 @@
 #define EITHER_STR "EITHER"
 
 
-
-
-
-
-
-
-
 /***************************
  * SOME ARBITRARY SETTINGS *
  ***************************/
 
 
-
-
-
-
-
 /* maximal string length
  */
-#define MAX_LENGTH 256 
+#define MAX_LENGTH 256
 
 
-/* marks border between connected items 
+/* marks border between connected items
  */
 #define CONNECTOR "~"
 
@@ -190,20 +144,9 @@
 #define BIG_INT 1500000
 
 
-
-
-
-
-
 /************************
  * INSTANTIATION LIMITS *
  ************************/
-
-
-
-
-
-
 
 
 #define MAX_CONSTANTS 2000
@@ -220,7 +163,7 @@
 
 
 /* in DNF: AND with OR - sons - collect 'hitting set':
- * one son of each OR node. 
+ * one son of each OR node.
  *
  * this here is initial max number of such son s that can be collected
  * (grows dynamically, if required)
@@ -234,17 +177,9 @@
 #define MAX_RELEVANT_FACTS 100000
 
 
-
-
-
-
 /******************************************
  * DOMAIN STRUCTURE AND SEARCHING LIMITS *
  ******************************************/
-
-
-
-
 
 
 
@@ -253,19 +188,9 @@
 #define MAX_LEVEL 100 /*Jicheng: the maximum nested levels*/
 
 
-
-
-
 /****************
  * CODE DEFINES *
  ****************/
-
-
-
-
-
-
-
 
 
 /* not a real 'code' define; used in relax and search to encode
@@ -274,11 +199,6 @@
 #ifndef INFINITY
 #define INFINITY -1
 #endif
-
-
-
-
-
 
 
 /* define boolean types if not allready defined
@@ -303,8 +223,8 @@ typedef unsigned char Bool;
 /* Check allocated memory
  */
 #define CHECK_PTR(p) if (NULL == (p)) { \
-  fprintf(stdout, "\n\aNO MEMORY in file %s:%d\n\n", __FILE__, __LINE__); \
-  exit(1);}
+fprintf(stdout, "\n\aNO MEMORY in file %s:%d\n\n", __FILE__, __LINE__); \
+exit(1);}
 
 
 /* add elapsed time from main local time vars to specified val
@@ -313,26 +233,9 @@ typedef unsigned char Bool;
 #define TIME( val ) val += ( float ) ( (end.time - start.time) * 1.0 + ( end.millitm - start.millitm) / (1000.0) )
 
 
-
-
-
-
-
-
-
-
 /*
  *  ------------------------------ DATA STRUCTURES ----------------------------
  */
-
-
-
-
-
-
-
-
-
 
 
 /*******************
@@ -340,37 +243,21 @@ typedef unsigned char Bool;
  *******************/
 
 
-
-
-
-
-
-
 /* all command switches
  */
 struct _command_line {
-
-  char path[MAX_LENGTH];
-  char ops_file_name[MAX_LENGTH];
-  char fct_file_name[MAX_LENGTH];
-  char mul_file_name[MAX_LENGTH];
-  int display_info;
-  int debug;
-
+    
+    char path[MAX_LENGTH];
+    char ops_file_name[MAX_LENGTH];
+    char fct_file_name[MAX_LENGTH];
+    char mul_file_name[MAX_LENGTH];
+    int display_info;
+    int debug;
+    
 };
 
 
 typedef char *Token;
-
-
-
-
-
-
-
-
-
-
 
 
 /***********
@@ -378,21 +265,13 @@ typedef char *Token;
  ***********/
 
 
-
-
-
-
-
-
-
-
 /* A list of strings
  */
 typedef struct _TokenList {
-
-  char *item;
-  struct _TokenList *next;
-
+    
+    char *item;
+    struct _TokenList *next;
+    
 } TokenList;
 
 
@@ -400,10 +279,10 @@ typedef struct _TokenList {
 /* list of string lists
  */
 typedef struct _FactList {
-
-  TokenList *item;
-  struct _FactList *next;
-
+    
+    TokenList *item;
+    struct _FactList *next;
+    
 } FactList;
 
 
@@ -412,21 +291,21 @@ typedef struct _FactList {
  * as they are declared in PDDL files
  */
 typedef struct _TypedList {
-
-  char *name;
-
-  /* each item in this list is the name of a type which
-   * our type is the union of (EITHER - types ...)
-   *
-   * usually, this will default to a single-item TokenList.
-   */
-  TokenList *type;
-  /* after first sweep, this will contain the number in type table
-   */
-  int n;
-
-  struct _TypedList *next;
-
+    
+    char *name;
+    
+    /* each item in this list is the name of a type which
+     * our type is the union of (EITHER - types ...)
+     *
+     * usually, this will default to a single-item TokenList.
+     */
+    TokenList *type;
+    /* after first sweep, this will contain the number in type table
+     */
+    int n;
+    
+    struct _TypedList *next;
+    
 } TypedList;
 
 
@@ -435,19 +314,19 @@ typedef struct _TypedList {
  * definitions
  */
 typedef struct _TypedListList {
-
-  char *predicate;
-
-  TypedList *args;
-
-  struct _TypedListList *next;
-
+    
+    char *predicate;
+    
+    TypedList *args;
+    
+    struct _TypedListList *next;
+    
 } TypedListList;
 
 
 
 /* This type indicates whether a node in the pddl tree stands for
- * an atomic expression, a junctor or a quantor. 
+ * an atomic expression, a junctor or a quantor.
  */
 /*
  * ATOM: atomic facts
@@ -459,14 +338,14 @@ typedef struct _TypedListList {
  * WHEN: when token
  */
 typedef enum _Connective{TRU,
-			   FAL,
-			   ATOM, 
-			   NOT, 
-			   AND, 
-			   OR, 
-			   ALL, 
-			   EX, 
-			   WHEN} Connective;
+    FAL,
+    ATOM,
+    NOT,
+    AND,
+    OR,
+    ALL,
+    EX,
+    WHEN} Connective;
 
 
 
@@ -474,32 +353,32 @@ typedef enum _Connective{TRU,
  * This is a node in the tree to parse PDDL files
  */
 typedef struct _PlNode {
-
-  /* type of the node
-   */
-  Connective connective;
-
-  /* only for parsing: the var args in quantifiers
-   */
-  TypedList *parse_vars;
-
-  /* AND, OR, NOT, WHEN => NULL
-   * ALL, EX            => the quantified variable with its type
-   * ATOM               => the atom as predicate->param1->param2->...
-   */
-  TokenList *atom;
-
-  /* (a) for AND, OR this is the list of sons(a AND b AND c...),
-   * (b) for the rest this is the son, e.g. a subtree that is negated
-   * (c) for WHEN, the first son is the condition and the next son
-   * is the effect
-   */
-  struct _PlNode *sons;
-
-  /* if you have a list of sons, they are connected by next
-   */
-  struct _PlNode *next;
-
+    
+    /* type of the node
+     */
+    Connective connective;
+    
+    /* only for parsing: the var args in quantifiers
+     */
+    TypedList *parse_vars;
+    
+    /* AND, OR, NOT, WHEN => NULL
+     * ALL, EX            => the quantified variable with its type
+     * ATOM               => the atom as predicate->param1->param2->...
+     */
+    TokenList *atom;
+    
+    /* (a) for AND, OR this is the list of sons(a AND b AND c...),
+     * (b) for the rest this is the son, e.g. a subtree that is negated
+     * (c) for WHEN, the first son is the condition and the next son
+     * is the effect
+     */
+    struct _PlNode *sons;
+    
+    /* if you have a list of sons, they are connected by next
+     */
+    struct _PlNode *next;
+    
 } PlNode;
 
 
@@ -507,27 +386,27 @@ typedef struct _PlNode {
  * This resembles an uninstantiated PDDL operator
  */
 typedef struct _PlOperator {
-
-  char *name;
-
-  /* only important for PDDL where :VARS may be added to the param list
-   * which must be hidden when writing the plan to an output file
-   */
-  int number_of_real_params; 
-
-  /* the params, as they are declared in domain file
-   */
-  TypedList *parse_params;
-
-  /* params is a list of variable/type pairs, such that:
-   * factlist->item = [variable] -> [type]
-   */
-  FactList *params;
-  PlNode *preconds;
-  PlNode *effects;
-
-  struct _PlOperator *next;
-
+    
+    char *name;
+    
+    /* only important for PDDL where :VARS may be added to the param list
+     * which must be hidden when writing the plan to an output file
+     */
+    int number_of_real_params;
+    
+    /* the params, as they are declared in domain file
+     */
+    TypedList *parse_params;
+    
+    /* params is a list of variable/type pairs, such that:
+     * factlist->item = [variable] -> [type]
+     */
+    FactList *params;
+    PlNode *preconds;
+    PlNode *effects;
+    
+    struct _PlOperator *next;
+    
 } PlOperator;
 
 
@@ -544,7 +423,7 @@ typedef struct _PlOperator {
 
 
 
-/***************** 
+/*****************
  * INSTANTIATION *
  *****************/
 
@@ -570,105 +449,105 @@ typedef int *int_pointer;
  */
 
 typedef struct _Fact {
-
-  int predicate, args[MAX_ARITY];
-
+    
+    int predicate, args[MAX_ARITY];
+    
 } Fact;
 
 
 
 typedef struct _Facts {
-
-  Fact *fact;
-
-  struct _Facts *next;
-
+    
+    Fact *fact;
+    
+    struct _Facts *next;
+    
 } Facts;
 
 
 
 typedef struct _WffNode {
-
-  Connective connective;
-
-  /* in ALL/EX s
-   */
-  int var, var_type;
-  char *var_name;
-
-  /* in AND/OR s
-   */
-  struct _WffNode *sons;
-  /* sons are doubly connected linear list
-   */
-  struct _WffNode *next;
-  struct _WffNode *prev;
-
-  /* in ATOMs
-   */
-  Fact *fact;
-  /* after translation: mark NOT-p s for efficiency
-   */
-  int NOT_p;
-
-  /* in ALL/EX/NOT
-   */
-  struct _WffNode *son;
-
-  /* for expansion speedup
-   */
-  Bool visited;
-
-  /* no WHEN s here... use Pl Connectives anyway for simplicity
-   */
-
+    
+    Connective connective;
+    
+    /* in ALL/EX s
+     */
+    int var, var_type;
+    char *var_name;
+    
+    /* in AND/OR s
+     */
+    struct _WffNode *sons;
+    /* sons are doubly connected linear list
+     */
+    struct _WffNode *next;
+    struct _WffNode *prev;
+    
+    /* in ATOMs
+     */
+    Fact *fact;
+    /* after translation: mark NOT-p s for efficiency
+     */
+    int NOT_p;
+    
+    /* in ALL/EX/NOT
+     */
+    struct _WffNode *son;
+    
+    /* for expansion speedup
+     */
+    Bool visited;
+    
+    /* no WHEN s here... use Pl Connectives anyway for simplicity
+     */
+    
 } WffNode, *WffNode_pointer;
 
 
 
 typedef struct _Literal {
-
-  Bool negated;
-
-  Fact fact;
-
-  struct _Literal *next;
-  struct _Literal *prev;
-
+    
+    Bool negated;
+    
+    Fact fact;
+    
+    struct _Literal *next;
+    struct _Literal *prev;
+    
 } Literal;
 
 
 
 typedef struct _Effect {
-
-  int num_vars, var_types[MAX_VARS];
-  char *var_names[MAX_VARS];
-
-  WffNode *conditions;
-
-  Literal *effects;
-
-  struct _Effect *next;
-  struct _Effect *prev;
-
+    
+    int num_vars, var_types[MAX_VARS];
+    char *var_names[MAX_VARS];
+    
+    WffNode *conditions;
+    
+    Literal *effects;
+    
+    struct _Effect *next;
+    struct _Effect *prev;
+    
 } Effect;
 
 
 
 typedef struct _Operator {
-
-  char *name, *var_names[MAX_VARS];
-  int number_of_real_params; 
-
-  int num_vars, var_types[MAX_VARS];
-  Bool removed[MAX_VARS];
- 
-  WffNode *preconds;
-
-  Effect *effects;
-
-  Bool hard;
-
+    
+    char *name, *var_names[MAX_VARS];
+    int number_of_real_params;
+    
+    int num_vars, var_types[MAX_VARS];
+    Bool removed[MAX_VARS];
+    
+    WffNode *preconds;
+    
+    Effect *effects;
+    
+    Bool hard;
+    
 } Operator, *Operator_pointer;
 
 
@@ -678,55 +557,55 @@ typedef struct _Operator {
  * operators
  */
 typedef struct _NormEffect {
-
-  int num_vars, var_types[MAX_VARS];
-  int inst_table[MAX_VARS];
-
-  Fact *conditions;
-  int num_conditions;
-
-  Fact *adds;
-  int num_adds;
-  Fact *dels;
-  int num_dels;
-
-  struct _NormEffect *prev;
-  struct _NormEffect *next;
-
+    
+    int num_vars, var_types[MAX_VARS];
+    int inst_table[MAX_VARS];
+    
+    Fact *conditions;
+    int num_conditions;
+    
+    Fact *adds;
+    int num_adds;
+    Fact *dels;
+    int num_dels;
+    
+    struct _NormEffect *prev;
+    struct _NormEffect *next;
+    
 } NormEffect;
 
 
 
 typedef struct _NormOperator {
-  
-  Operator *operator;
-
-  int num_vars, var_types[MAX_VARS];
-  int inst_table[MAX_VARS];
-  int removed_vars[MAX_VARS], num_removed_vars, type_removed_vars[MAX_VARS];
-
-  Fact *preconds;
-  int num_preconds;
-
-  NormEffect *effects;
-
-  Bool out;
-
+    
+    Operator *operator;
+    
+    int num_vars, var_types[MAX_VARS];
+    int inst_table[MAX_VARS];
+    int removed_vars[MAX_VARS], num_removed_vars, type_removed_vars[MAX_VARS];
+    
+    Fact *preconds;
+    int num_preconds;
+    
+    NormEffect *effects;
+    
+    Bool out;
+    
 } NormOperator, *NormOperator_pointer;
-  
+
 
 
 /* minimal info for a fully instantiated easy operator;
  * yields one action when expanded
  */
 typedef struct _EasyTemplate {
-
-  NormOperator *op;
-  int inst_table[MAX_VARS];
-
-  struct _EasyTemplate *prev;
-  struct _EasyTemplate *next;
-
+    
+    NormOperator *op;
+    int inst_table[MAX_VARS];
+    
+    struct _EasyTemplate *prev;
+    struct _EasyTemplate *next;
+    
 } EasyTemplate;
 
 
@@ -746,18 +625,18 @@ typedef struct _EasyTemplate {
  * effect conditions
  */
 typedef struct _MixedOperator {
-  
-  Operator *operator;
-
-  int inst_table[MAX_VARS];
-
-  Fact *preconds;
-  int num_preconds;
-
-  Effect *effects;
-
-  struct _MixedOperator *next;
-
+    
+    Operator *operator;
+    
+    int inst_table[MAX_VARS];
+    
+    Fact *preconds;
+    int num_preconds;
+    
+    Effect *effects;
+    
+    struct _MixedOperator *next;
+    
 } MixedOperator;
 
 
@@ -766,36 +645,36 @@ typedef struct _MixedOperator {
 
 /* last hard step: everything is action - like, except that
  * facts are not yet integer coded
- */  
+ */
 
 typedef struct _PseudoActionEffect {
-
-  Fact *conditions;
-  int num_conditions;
-
-  Fact *adds;
-  int num_adds;
-  Fact *dels;
-  int num_dels;
-
-  struct _PseudoActionEffect *next;
-
+    
+    Fact *conditions;
+    int num_conditions;
+    
+    Fact *adds;
+    int num_adds;
+    Fact *dels;
+    int num_dels;
+    
+    struct _PseudoActionEffect *next;
+    
 } PseudoActionEffect;
 
 
 
 typedef struct _PseudoAction {
-
-  Operator *operator;
-
-  int inst_table[MAX_VARS];
-
-  Fact *preconds;
-  int num_preconds;
-
-  PseudoActionEffect *effects;
-  int num_effects;
-
+    
+    Operator *operator;
+    
+    int inst_table[MAX_VARS];
+    
+    Fact *preconds;
+    int num_preconds;
+    
+    PseudoActionEffect *effects;
+    int num_effects;
+    
 } PseudoAction, *PseudoAction_pointer;
 
 
@@ -808,38 +687,38 @@ typedef struct _PseudoAction {
 
 
 typedef struct _ActionEffect {
-
-  int *conditions;
-  int num_conditions;
-
-  int *adds;
-  int num_adds;
-  int *dels;
-  int num_dels;
-
+    
+    int *conditions;
+    int num_conditions;
+    
+    int *adds;
+    int num_adds;
+    int *dels;
+    int num_dels;
+    
 } ActionEffect;
 
 
 
 typedef struct _Action {
-
-  NormOperator *norm_operator;
-  PseudoAction *pseudo_action;
-
-  char *name;
-  int num_name_vars;
-  int name_inst_table[MAX_VARS];
-
-  int inst_table[MAX_VARS];
-
-  int *preconds;
-  int num_preconds;
-
-  ActionEffect *effects;
-  int num_effects;
-
-  struct _Action *next;
-
+    
+    NormOperator *norm_operator;
+    PseudoAction *pseudo_action;
+    
+    char *name;
+    int num_name_vars;
+    int name_inst_table[MAX_VARS];
+    
+    int inst_table[MAX_VARS];
+    
+    int *preconds;
+    int num_preconds;
+    
+    ActionEffect *effects;
+    int num_effects;
+    
+    struct _Action *next;
+    
 } Action;
 
 
@@ -856,107 +735,107 @@ typedef struct _Action {
  * BASIC OP AND FT STRUCTURES FOR CONNECTIVITY GRAPH *
  *****************************************************/
 typedef struct _OpConn {
-
-  /* to get name
-   */
-  Action *action;
-
-  /* effects
-   */
-  int *E;
-  int num_E;
-
-  /* member for applicable actions extraction
-   */
-  Bool is_in_A;
-
-  /* members for 1Ph - H(S) extraction
-   */
-  int is_used;
-  Bool is_in_H;
-
-  /* actionGroup id */
-  int group;
-
+    
+    /* to get name
+     */
+    Action *action;
+    
+    /* effects
+     */
+    int *E;
+    int num_E;
+    
+    /* member for applicable actions extraction
+     */
+    Bool is_in_A;
+    
+    /* members for 1Ph - H(S) extraction
+     */
+    int is_used;
+    Bool is_in_H;
+    
+    /* actionGroup id */
+    int group;
+    
 } OpConn;
 
 
 typedef struct _EfConn {
-
-  int op;
-
-  /* op preconds + conds
-   */
-  int *PC;
-  int num_PC;
-
-
-  /* effect add */
-  int *A;
-  int num_A;
-
-  /* effect del */
-  int *D;
-  int num_D;
-
-  /* implied effects
-   */
-  int *I;
-  int num_I;
-
-  Bool removed;
-
-  /* members for relaxed fixpoint computation
-   */
-  int level;
-  Bool in_E;
-  int num_active_PCs;
-  Bool ch;
-
-  /* in search: which ef is ``in plan''
-   */
-  Bool in_plan;
-
+    
+    int op;
+    
+    /* op preconds + conds
+     */
+    int *PC;
+    int num_PC;
+    
+    
+    /* effect add */
+    int *A;
+    int num_A;
+    
+    /* effect del */
+    int *D;
+    int num_D;
+    
+    /* implied effects
+     */
+    int *I;
+    int num_I;
+    
+    Bool removed;
+    
+    /* members for relaxed fixpoint computation
+     */
+    int level;
+    Bool in_E;
+    int num_active_PCs;
+    Bool ch;
+    
+    /* in search: which ef is ``in plan''
+     */
+    Bool in_plan;
+    
 } EfConn;
 
 
 
 typedef struct _FtConn {
-
-  /* effects it is union conds, pres element of
-   */
-  int *PC;
-  int num_PC;
-
-  /* efs that add or del it
-   */
-  int *A;
-  int num_A;
-
-  int *D;
-  int num_D;
-
-  /* members for orderings preprocessing
-   */
-  int *False;
-  int num_False;
-
-  /* members for relaxed fixpoint computation
-   */
-  int level;
-  Bool in_F;
-
-  /* members for 1Ph extraction
-   */
-  int is_goal;
-  int is_true;
-  Bool ch;
-
-  /* search
-   */
-  int rand;/* for hashing */
-  Bool is_global_goal;/* fast goal add finding */
-
+    
+    /* effects it is union conds, pres element of
+     */
+    int *PC;
+    int num_PC;
+    
+    /* efs that add or del it
+     */
+    int *A;
+    int num_A;
+    
+    int *D;
+    int num_D;
+    
+    /* members for orderings preprocessing
+     */
+    int *False;
+    int num_False;
+    
+    /* members for relaxed fixpoint computation
+     */
+    int level;
+    Bool in_F;
+    
+    /* members for 1Ph extraction
+     */
+    int is_goal;
+    int is_true;
+    Bool ch;
+    
+    /* search
+     */
+    int rand;/* for hashing */
+    Bool is_global_goal;/* fast goal add finding */
+    
 } FtConn;
 
 
@@ -965,95 +844,95 @@ typedef struct _FtConn {
  * STRUCTURES FOR SEARCHING *
  ****************************/
 typedef struct _State {
-  
-  int *F;
-  int num_F;
-
-  int max_F;
-
-  /*Jicheng: define the maximum nested level*/
-  int L[MAX_LEVEL];
-  int num_L; /*number of level*/
-  int num_B; /*number of branch*/
-
+    
+    int *F;
+    int num_F;
+    
+    int max_F;
+    
+    /*Jicheng: define the maximum nested level*/
+    int L[MAX_LEVEL];
+    int num_L; /*number of level*/
+    int num_B; /*number of branch*/
+    
 } State, *State_pointer;
 
 
 
 typedef struct _EhcNode {
-  
-  State S;
-
-  int op;
-  int depth;
-
-  struct _EhcNode *father;
-  struct _EhcNode *next;
-
-  /* for Goal Added Deletion Heuristic:
-   * number of new goal that came in into S;
-   *
-   * if no such goal --> == -1
-   */
-  int new_goal;
-
+    
+    State S;
+    
+    int op;
+    int depth;
+    
+    struct _EhcNode *father;
+    struct _EhcNode *next;
+    
+    /* for Goal Added Deletion Heuristic:
+     * number of new goal that came in into S;
+     *
+     * if no such goal --> == -1
+     */
+    int new_goal;
+    
 } EhcNode;
 
 
 
 typedef struct _EhcHashEntry {
-
-  int sum;
-
-  EhcNode *ehc_node;
-
-  struct _EhcHashEntry *next;
-
+    
+    int sum;
+    
+    EhcNode *ehc_node;
+    
+    struct _EhcHashEntry *next;
+    
 } EhcHashEntry, *EhcHashEntry_pointer;
 
 
 
 typedef struct _PlanHashEntry {
-
-  int sum;
-  State S;
-
-  /* step is number of op that is EXECUTED in S;
-   * -1 means that this state is no longer contained in plan
-   */
-  int step;
-  struct _PlanHashEntry *next_step;
-
-  struct _PlanHashEntry *next;
-
+    
+    int sum;
+    State S;
+    
+    /* step is number of op that is EXECUTED in S;
+     * -1 means that this state is no longer contained in plan
+     */
+    int step;
+    struct _PlanHashEntry *next_step;
+    
+    struct _PlanHashEntry *next;
+    
 } PlanHashEntry, *PlanHashEntry_pointer;
 
 
 
 typedef struct _BfsNode {
-  
-  State S;
-
-  int op;
-  int h;
-
-  struct _BfsNode *father;
-
-  struct _BfsNode *next;
-  struct _BfsNode *prev;
-
+    
+    State S;
+    
+    int op;
+    int h;
+    
+    struct _BfsNode *father;
+    
+    struct _BfsNode *next;
+    struct _BfsNode *prev;
+    
 } BfsNode;
 
 
 
 typedef struct _BfsHashEntry {
-
-  int sum;
-
-  BfsNode *bfs_node;
-
-  struct _BfsHashEntry *next;
-
+    
+    int sum;
+    
+    BfsNode *bfs_node;
+    
+    struct _BfsHashEntry *next;
+    
 } BfsHashEntry, *BfsHashEntry_pointer;
 
 
@@ -1147,7 +1026,7 @@ extern PlOperator *gloaded_ops;
  */
 extern PlOperator *gadd_loaded_ops;
 
-/* stores initials as fact_list 
+/* stores initials as fact_list
  */
 extern PlNode *gorig_initial_facts;
 
@@ -1180,7 +1059,7 @@ extern TypedList *gparse_objects;
 /* connection to instantiation ( except ops, goal, initial )
  */
 
-/* all typed objects 
+/* all typed objects
  */
 extern FactList *gorig_constant_list;
 
@@ -1306,11 +1185,14 @@ extern int gnum_pp_facts;
  */
 extern Action *gactions;
 extern Action *gadd_actions;
+extern Action *gall_actions;
 extern int gnum_actions;
 extern int gadd_num_actions;
+extern int gall_num_actions;
 extern State ginitial_state;
 extern State ggoal_state;
 extern State gadd_goal_state;
+extern State gall_goal_state;
 
 /**********************
  * CONNECTIVITY GRAPH *
