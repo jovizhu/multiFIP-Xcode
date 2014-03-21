@@ -651,7 +651,6 @@ int main( int argc, char *argv[] ) {
     }
     
     found_plan = ( i == gnum_goal_agenda ) ? TRUE : FALSE;
-    /////////
 
     if ( !found_plan ) {
         printf("\n\nEnforced Hill-climbing failed !");

@@ -158,10 +158,10 @@ void encode_domain_in_integers( void ) {
     for (i=0; i< gadd_num_operators; i++) {
 	print_Operator ( goperators[i] );
     }
-    prinf("\n\n");
+    printf("\n\n");
 
     printf("\n\nadditional goals is:\n");
-    prinf_Wff( gadd_goal, 0);
+    print_Wff( gadd_goal, 0);
   }
 
 }
