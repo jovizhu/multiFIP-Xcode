@@ -219,6 +219,9 @@ WffNode *gadd_goal = NULL;
 Bool gis_added[MAX_PREDICATES];
 Bool gis_deleted[MAX_PREDICATES];
 
+Bool gadd_is_add[MAX_PREDICATES];
+Bool gadd_is_deleted[MAX_PREDICATES];
+
 /* splitted initial state:
  * initial non static facts,
  * initial static facts, divided into predicates
