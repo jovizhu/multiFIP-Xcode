@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>1EFBCB87-510D-437D-8DDC-05A6F1AD1797</string>
+	<key>IDESourceControlProjectName</key>
+	<string>multiFIP</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>B562E45A-BFD6-499F-B1C4-6A84EE93F34D</key>
+		<string>https://github.com/jovizhu/multiFIP-Xcode.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>multiFIP.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>B562E45A-BFD6-499F-B1C4-6A84EE93F34D</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/jovizhu/multiFIP-Xcode.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>B562E45A-BFD6-499F-B1C4-6A84EE93F34D</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>B562E45A-BFD6-499F-B1C4-6A84EE93F34D</string>
+			<key>IDESourceControlWCCName</key>
+			<string>multiFIP</string>
+		</dict>
+	</array>
+</dict>
+</plist>

@@ -77,6 +77,9 @@
 double gtempl_time = 0, greach_time = 0, grelev_time = 0, gconn_time = 0;
 double gsearch_time = 0;
 
+double gadd_templ_time = 0, gadd_reach_time = 0, gadd_relev_time = 0, gadd_conn_time = 0;
+double gadd_search_time = 0;
+
 
 /* the command line inputs
  */
@@ -657,48 +660,6 @@ int main( int argc, char *argv[] ) {
         found_plan = do_best_first_search();
     }
     
-    
-    /********************************************
-     * Multiple Purpose Planning                *
-     ********************************************/
-    update_reachability_analysis_for_multiple_purpose ();
-    
-    update_relevant_facts_for_multiple_purpose ();
-    
-    update_connectivity_graph_for_multiple_purpose();
-    
-    compute_goal_agenda_for_multiple_purpose ();
-    
-    for ( i = 0; i < MAX_PLAN_LENGTH + 1; i++ ) {
-        make_state( &(gadd_plan_states[i]), gnum_ft_conn );
-        gadd_plan_states[i].max_F = gnum_ft_conn;
-    }
-    
-    source_to_dest( &current_end, &(gadd_goal_agenda[0]) );
-    
-    for ( i = 0; i < gadd_num_goal_agenda; i++ ) {
-        /* JC add a hashtable creating in do_enforced_hill_climbling*/
-        if ( !do_enforced_hill_climbing_for_multiple_purpose ( &current_start, &current_end ) ) {
-            break;
-        }
-        source_to_dest( &current_start, &(gplan_states[gnum_plan_ops]) );
-        if ( i < gnum_goal_agenda - 1 ) {
-            for ( j = 0; j < ggoal_agenda[i+1].num_F; j++ ) {
-                current_end.F[current_end.num_F++] = ggoal_agenda[i+1].F[j];
-            }
-        }
-    }
-    
-    found_plan_for_multiple_purpose = ( i == gadd_num_goal_agenda ) ? TRUE : FALSE;
-    
-    if ( !found_plan_for_multiple_purpose ) {
-        printf("\n\nEnforced Hill-climbing failed !");
-        printf("\nswitching to Best-first Search now.\n");
-        reset_ff_states();
-        found_plan = do_best_first_search();
-    }
-    /*****************************************************************************************/
-    
     if ( found_plan ) {
         /*print_plan();*/
         /* D action add to group */
@@ -765,6 +726,60 @@ int main( int argc, char *argv[] ) {
     
     output_planner_info();
     
+    
+    
+    
+    /********************************************
+     * Multiple Purpose Planning                *
+     ********************************************/
+    ftime(&start);
+    update_reachability_analysis_for_multiple_purpose ();
+    ftime(&end);
+    TIME( gadd_reach_time );
+    
+    ftime(&start);
+    update_relevant_facts_for_multiple_purpose ();
+    ftime(&end);
+    TIME( gadd_relev_time );
+    
+    ftime(&start);
+    update_connectivity_graph_for_multiple_purpose();
+    ftime(&end);
+    TIME( gadd_conn_time );
+    
+    compute_goal_agenda_for_multiple_purpose ();
+    
+    for ( i = 0; i < MAX_PLAN_LENGTH + 1; i++ ) {
+        make_state( &(gadd_plan_states[i]), gnum_ft_conn );
+        gadd_plan_states[i].max_F = gnum_ft_conn;
+    }
+    
+    source_to_dest( &current_end, &(gadd_goal_agenda[0]) );
+    
+    for ( i = 0; i < gadd_num_goal_agenda; i++ ) {
+        /* JC add a hashtable creating in do_enforced_hill_climbling*/
+        if ( !do_enforced_hill_climbing_for_multiple_purpose ( &current_start, &current_end ) ) {
+            break;
+        }
+        source_to_dest( &current_start, &(gplan_states[gnum_plan_ops]) );
+        if ( i < gnum_goal_agenda - 1 ) {
+            for ( j = 0; j < ggoal_agenda[i+1].num_F; j++ ) {
+                current_end.F[current_end.num_F++] = ggoal_agenda[i+1].F[j];
+            }
+        }
+    }
+    
+    found_plan_for_multiple_purpose = ( i == gadd_num_goal_agenda ) ? TRUE : FALSE;
+    
+    if ( !found_plan_for_multiple_purpose ) {
+        printf("\n\nEnforced Hill-climbing failed !");
+        printf("\nswitching to Best-first Search now.\n");
+        reset_ff_states();
+        found_plan = do_best_first_search();
+    }
+    
+    
+    /*****************************************************************************************/
     printf("\n\n");
     exit( 0 );
     
