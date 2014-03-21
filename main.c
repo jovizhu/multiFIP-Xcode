@@ -201,6 +201,7 @@ int gnum_predicates = 0;
 
 /* jovi: defined for multiple purpose */
 Token gadd_predicates[MAX_PREDICATES];
+int gadd_num_predicates = 0;
 
 /* the domain in integer (Fact) representation */
 Operator_pointer goperators[MAX_OPERATORS];
@@ -219,7 +220,7 @@ WffNode *gadd_goal = NULL;
 Bool gis_added[MAX_PREDICATES];
 Bool gis_deleted[MAX_PREDICATES];
 
-Bool gadd_is_add[MAX_PREDICATES];
+Bool gadd_is_added[MAX_PREDICATES];
 Bool gadd_is_deleted[MAX_PREDICATES];
 
 /* splitted initial state:
