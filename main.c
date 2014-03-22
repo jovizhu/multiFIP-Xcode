@@ -875,7 +875,7 @@ void ff_usage( void ) {
     printf("-p <str>    path for operator and fact file\n");
     printf("-o <str>    operator file name\n");
     printf("-f <str>    fact file name\n");
-    printf("-a <str>    multiple purpose file name\n");
+    printf("-m <str>    multiple purpose file name\n");
     printf("-t <str>    type of planning. Either strong or strong cyclic\n");
     printf("-i <num>    run-time information level( preset: 1 )\n");
     printf("      0     only times\n");
