@@ -66,7 +66,7 @@ OBJECTS 	= $(SOURCES:.c=.o)
 ####### Build rules
 
 all: $(OBJECTS) $(PDDL_PARSER_OBJ)
-	$(CC) -o fip $(OBJECTS) $(PDDL_PARSER_OBJ) $(CFLAGS) $(LIBS)
+	$(CC) -o mul-fip $(OBJECTS) $(PDDL_PARSER_OBJ) $(CFLAGS) $(LIBS)
 	
 	
 fip: $(OBJECTS) $(PDDL_PARSER_OBJ)
