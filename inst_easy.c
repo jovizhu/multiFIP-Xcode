@@ -1634,29 +1634,29 @@ void unify_easy_inertia_conditions_for_multiple_purpose( int curr_inertia ) {
 }
 
 
-void multiply_easy_non_constrained_effect_parameters_for_multiple_purpose ( int curr_parameter ) {
+void multiply_easy_non_constrained_effect_parameters( int curr_parameter ) {
 
   int t, n, i, j, k, p, par;
   NormEffect *tmp;
   Bool rem;
 
-  if ( curr_parameter == ladd_num_multiply_parameters ) {
+  if ( curr_parameter == lnum_multiply_parameters ) {
     /* create new effect, adjusting conds to inst, and
      * partially instantiating effects;
      *
-     * add result to  lres
+     *  result to  lres
      */
-    tmp = new_NormEffect2( ladd_e );
+    tmp = new_NormEffect2( le );
     /* instantiate param occurences
      */
-    for ( i = 0; i < ladd_e->num_vars; i++ ) {
-      par = ladd_o->num_vars + i;
+    for ( i = 0; i < le->num_vars; i++ ) {
+      par = lo->num_vars + i;
 
       for ( j = 0; j < tmp->num_conditions; j++ ) {
 	for ( k = 0; k < garity[tmp->conditions[j].predicate]; k++ ) {
           /* if conditions args has been ENCODE */
 	  if ( tmp->conditions[j].args[k] == ENCODE_VAR( par ) ) {
-	    tmp->conditions[j].args[k] = ladd_e->inst_table[i];
+	    tmp->conditions[j].args[k] = le->inst_table[i];
 	  }
 	}
       }
@@ -1664,7 +1664,7 @@ void multiply_easy_non_constrained_effect_parameters_for_multiple_purpose ( int 
       for ( j = 0; j < tmp->num_adds; j++ ) {
 	for ( k = 0; k < garity[tmp->adds[j].predicate]; k++ ) {
 	  if ( tmp->adds[j].args[k] == ENCODE_VAR( par ) ) {
-	    tmp->adds[j].args[k] = ladd_e->inst_table[i];
+	    tmp->adds[j].args[k] = le->inst_table[i];
 	  }
 	}
       }
@@ -1672,7 +1672,7 @@ void multiply_easy_non_constrained_effect_parameters_for_multiple_purpose ( int 
       for ( j = 0; j < tmp->num_dels; j++ ) {
 	for ( k = 0; k < garity[tmp->dels[j].predicate]; k++ ) {
 	  if ( tmp->dels[j].args[k] == ENCODE_VAR( par ) ) {
-	    tmp->dels[j].args[k] = ladd_e->inst_table[i];
+	    tmp->dels[j].args[k] = le->inst_table[i];
 	  }
 	}
       }
@@ -1687,7 +1687,7 @@ void multiply_easy_non_constrained_effect_parameters_for_multiple_purpose ( int 
       if ( !gis_added[p] &&  !gis_deleted[p] ) {
 
 	for ( j = 0; j < garity[p]; j++ ) {
-	  if ( tmp->conditions[i].args[j] < 0 && DECODE_VAR( tmp->conditions[i].args[j] < ladd_o->num_vars ) ) {
+	  if ( tmp->conditions[i].args[j] < 0 && DECODE_VAR( tmp->conditions[i].args[j] < lo->num_vars ) ) {
 	    break;
 	  }
 	}
@@ -1715,42 +1715,130 @@ void multiply_easy_non_constrained_effect_parameters_for_multiple_purpose ( int 
     }
 
     /* add result to lres */
-    if ( ladd_res ) {
-      ladd_res->prev = tmp;
+    if ( lres ) {
+      lres->prev = tmp;
     }
-    tmp->next = ladd_res;
-    ladd_res = tmp;
+    tmp->next = lres;
+    lres = tmp;
     return;
   }
 
-  /* if curr_parameter != ladd_num_multiply_parameters
+  /* if curr_parameter != lnum_multiply_parameters
    * curr_parameter++ and do the same thing */
-  t = ladd_e->var_types[ladd_multiply_parameters[curr_parameter]];
+  t = le->var_types[lmultiply_parameters[curr_parameter]];
   n = gtype_size[t];
 
   for ( i = 0; i < n; i++ ) {
-    ladd_e->inst_table[ladd_multiply_parameters[curr_parameter]] = gtype_consts[t][i];
-    multiply_easy_non_constrained_effect_parameters_for_multiple_purpose ( curr_parameter + 1 );
+    le->inst_table[lmultiply_parameters[curr_parameter]] = gtype_consts[t][i];
+    multiply_easy_non_constrained_effect_parameters ( curr_parameter + 1 );
   }
   /* set inst_table to -1 */
-  ladd_e->inst_table[ladd_multiply_parameters[curr_parameter]] = -1;
+  le->inst_table[lmultiply_parameters[curr_parameter]] = -1;
 }
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+void multiply_easy_non_constrained_effect_parameters_for_multiple_purpose ( int curr_parameter ) {
+    
+    int t, n, i, j, k, p, par;
+    NormEffect *tmp;
+    Bool rem;
+    
+    if ( curr_parameter == ladd_num_multiply_parameters ) {
+        /* create new effect, adjusting conds to inst, and
+         * partially instantiating effects;
+         *
+         * add result to  lres
+         */
+        tmp = new_NormEffect2( ladd_e );
+        /* instantiate param occurences
+         */
+        for ( i = 0; i < ladd_e->num_vars; i++ ) {
+            par = ladd_o->num_vars + i;
+            
+            for ( j = 0; j < tmp->num_conditions; j++ ) {
+                for ( k = 0; k < garity[tmp->conditions[j].predicate]; k++ ) {
+                    /* if conditions args has been ENCODE */
+                    if ( tmp->conditions[j].args[k] == ENCODE_VAR( par ) ) {
+                        tmp->conditions[j].args[k] = ladd_e->inst_table[i];
+                    }
+                }
+            }
+            
+            for ( j = 0; j < tmp->num_adds; j++ ) {
+                for ( k = 0; k < garity[tmp->adds[j].predicate]; k++ ) {
+                    if ( tmp->adds[j].args[k] == ENCODE_VAR( par ) ) {
+                        tmp->adds[j].args[k] = ladd_e->inst_table[i];
+                    }
+                }
+            }
+            
+            for ( j = 0; j < tmp->num_dels; j++ ) {
+                for ( k = 0; k < garity[tmp->dels[j].predicate]; k++ ) {
+                    if ( tmp->dels[j].args[k] == ENCODE_VAR( par ) ) {
+                        tmp->dels[j].args[k] = ladd_e->inst_table[i];
+                    }
+                }
+            }
+        }
+        /* adjust conditions
+         */
+        i = 0;
+        while ( i < tmp->num_conditions ) {
+            
+            rem = FALSE;
+            p = tmp->conditions[i].predicate;
+            if ( !gis_added[p] &&  !gis_deleted[p] ) {
+                
+                for ( j = 0; j < garity[p]; j++ ) {
+                    if ( tmp->conditions[i].args[j] < 0 && DECODE_VAR( tmp->conditions[i].args[j] < ladd_o->num_vars ) ) {
+                        break;
+                    }
+                }
+                /* all params has been unified */
+                if ( j == garity[p] ) {
+                    /* inertia that constrain only effect params have been unified,
+                     * are therefore TRUE
+                     */
+                    rem = TRUE;
+                }
+            }
+            
+            /* remove conditon[i] */
+            if ( rem ) {
+                for ( j = i; j < tmp->num_conditions - 1; j++ ) {
+                    tmp->conditions[j].predicate = tmp->conditions[j+1].predicate;
+                    for ( k = 0; k < garity[tmp->conditions[j+1].predicate]; k++ ) {
+                        tmp->conditions[j].args[k] = tmp->conditions[j+1].args[k];
+                    }
+                }
+                tmp->num_conditions--;
+            } else {
+                i++;
+            }
+        }
+        
+        /* add result to lres */
+        if ( ladd_res ) {
+            ladd_res->prev = tmp;
+        }
+        tmp->next = ladd_res;
+        ladd_res = tmp;
+        return;
+    }
+    
+    /* if curr_parameter != ladd_num_multiply_parameters
+     * curr_parameter++ and do the same thing */
+    t = ladd_e->var_types[ladd_multiply_parameters[curr_parameter]];
+    n = gtype_size[t];
+    
+    for ( i = 0; i < n; i++ ) {
+        ladd_e->inst_table[ladd_multiply_parameters[curr_parameter]] = gtype_consts[t][i];
+        multiply_easy_non_constrained_effect_parameters_for_multiple_purpose ( curr_parameter + 1 );
+    }
+    /* set inst_table to -1 */
+    ladd_e->inst_table[ladd_multiply_parameters[curr_parameter]] = -1;
+}
 
 
 
