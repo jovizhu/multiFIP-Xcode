@@ -2880,7 +2880,7 @@ void merge_next_step_ANDs_and_ORs_in_wff( WffNode **w ) {
       /* parse to the end of w->sons->sons */
       for ( j = i->sons; j->next; j = j->next );
 
-      // append w->sons->next to w->sons->sons  
+      /* append w->sons->next to w->sons->sons  */
       j->next = i->next;
 
       if ( i->next ) {

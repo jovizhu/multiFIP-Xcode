@@ -603,7 +603,7 @@ void build_orig_constant_list( void ) {
     /* jovi: update to support multiple purposes */
     normalize_tyl_in_pl( &gadd_orig_goal_facts );
 	
-	printf("Debug Info: normalize_tyl_in_pl for multiple purpose done\n");
+    printf("Debug Info: normalize_tyl_in_pl for multiple purpose done\n");
     
     for ( pao = gadd_loaded_ops; pao; pao = pao->next ) {
         normalize_tyl_in_pl( &pao->preconds );
@@ -616,7 +616,7 @@ void build_orig_constant_list( void ) {
         fl = new_FactList();
         fl->item = new_TokenList();
         fl->item->next = new_TokenList();
-        fl->item->item = copy_Token( po->parse_params->name );
+        fl->item->item = copy_Token( pao->parse_params->name );
         if ( pao->parse_params->type->next ) {
             fl->item->next->item = new_Token( MAX_LENGTH );
             strcpy( fl->item->next->item, EITHER_STR );

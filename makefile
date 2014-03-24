@@ -11,13 +11,13 @@ ADDONS	=
 
 CC      = gcc 
 
-#CFLAGS	= -O6 -Wall -g -ansi $(TYPE) $(ADDONS) 
+CFLAGS	= -O6 -Wall -g -ansi -debug $(TYPE) $(ADDONS) 
 ifeq ($(UNAME),Darwin) # Mac OS
 CFLAGS = -O3 -v -g -ansi $(TYPE) $(ADDONS) 
 endif
 
 ifeq ($(UNAME), Linux) # Linux
-CFLAGS = -O6 -g -w -ansi $(TYPE) $(ADDONS) 
+CFLAGS = -O6 -g -w -ansi -d $(TYPE) $(ADDONS) 
 endif
 # -g -pg
 

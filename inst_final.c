@@ -811,11 +811,11 @@ void update_relevant_facts_for_multiple_purpose ( void ) {
      */
     make_state( &gadd_goal_state, gnum_relevant_facts + 1 );
     gadd_goal_state.max_F = gnum_relevant_facts + 1;
-    //make_state( &ginitial_state, gnum_relevant_facts + 1 );
-    //ginitial_state.max_F = gnum_relevant_facts + 1;
+    /* make_state( &ginitial_state, gnum_relevant_facts + 1 ); */
+    /* ginitial_state.max_F = gnum_relevant_facts + 1; */
     
     create_final_goal_state_for_multiple_purpose ();
-    //create_final_initial_state();
+    /* create_final_initial_state(); */
     create_final_actions_for_multiple_purpose();
     
     if ( gcmd_line.display_info == 120 ) {
