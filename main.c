@@ -482,27 +482,25 @@ int main( int argc, char *argv[] ) {
     ftime(&start);
     /* domain file (ops)
      */
-    if ( gcmd_line.display_info >= 1 ) {
-        printf("\nff: parsing domain file");
-    }
+
     /* it is important for the pddl language to define the domain before
      * reading the problem  */
     load_ops_file( ops_file );
     /* problem file (facts) */
     if ( gcmd_line.display_info >= 1 ) {
-        printf(" ... done.\nff: parsing problem file.\n");
+        printf("\nmul-fip: parsing problem file.\n");
     }
     
     load_fct_file( fct_file );
     
     if ( gcmd_line.display_info >= 1 ) {
-        printf(" ... original purpose fact file done.\n");
+        printf("\nmul-fip: original purpose fact file done.\n");
     }
     
     load_mul_file( mul_file );
     
     if ( gcmd_line.display_info >= 1 ) {
-        printf("... multiple purpose fact file done.\n");
+        printf("\nmul-fip: multiple purpose fact file done.\n");
     }
     
     /* This is needed to get all types.*/
@@ -510,7 +508,7 @@ int main( int argc, char *argv[] ) {
     build_orig_constant_list();
     
     if ( gcmd_line.display_info >= 1 ) {
-        printf(" ... build_orig_constant_list() done.\n");
+        printf("\nmul-fip: build_orig_constant_list() done.\n");
     }
     
     /* last step of parsing: see if it's an ADL domain!
@@ -521,7 +519,7 @@ int main( int argc, char *argv[] ) {
         exit( 1 );
     }
     if ( gcmd_line.display_info >= 1 ) {
-        printf(" ... make_adl_domain() done.\n");
+        printf("\nmul-fip: make_adl_domain() done.\n");
     }
     
     /* now instantiate operators;
@@ -539,7 +537,7 @@ int main( int argc, char *argv[] ) {
     encode_domain_in_integers();
     
     if ( gcmd_line.display_info >= 1 ) {
-        printf(" ... encode_domain_in_integers() done.\n");
+        printf("\nmul-fip: encode_domain_in_integers() done.\n");
     }
     /* inertia preprocessing, first step:
      *   - collect inertia information
@@ -550,7 +548,7 @@ int main( int argc, char *argv[] ) {
      */
     do_inertia_preprocessing_step_1();
     if ( gcmd_line.display_info >= 1 ) {
-        printf(" ... do_inertia_preprocessing_step_1() done.\n");
+        printf("\nmul-fip: do_inertia_preprocessing_step_1() done.\n");
     }
     
     /* normalize all PL1 formulae in domain description:
@@ -562,7 +560,7 @@ int main( int argc, char *argv[] ) {
     normalize_all_wffs();
     
     if ( gcmd_line.display_info >= 1 ) {
-        printf(" ... normalize_all_wffs() done.\n");
+        printf("\nmul-fip: normalize_all_wffs() done.\n");
     }
     
     /* translate negative preconds: introduce symmetric new predicate
@@ -570,7 +568,7 @@ int main( int argc, char *argv[] ) {
      */
     translate_negative_preconds();
     if ( gcmd_line.display_info >= 1 ) {
-        printf(" ... translate_negative_preconds() done.\n");
+        printf("\nmul-fip: translate_negative_preconds() done.\n");
     }
     
     /* split domain in easy (disjunction of conjunctive preconds)
@@ -579,7 +577,7 @@ int main( int argc, char *argv[] ) {
      */
     split_domain();
     if ( gcmd_line.display_info >= 1 ) {
-        printf(" ... split_domain() done.\n");
+        printf("\nmul-fip: split_domain() done.\n");
     }
     
     /***********************************************
@@ -593,7 +591,7 @@ int main( int argc, char *argv[] ) {
     build_hard_action_templates();
     
     if ( gcmd_line.display_info >= 1 ) {
-        printf(" ... build_easy_action_template() done.\n");
+        printf("\nmul-fip: build_easy_action_template() done.\n");
     }
     
     /*times( &end );*/
@@ -607,7 +605,7 @@ int main( int argc, char *argv[] ) {
     perform_reachability_analysis();
     
     if ( gcmd_line.display_info >= 1 ) {
-        printf(" ... perform_reachability_analysis() done.\n");
+        printf("\nmul-fip: perform_reachability_analysis() done.\n");
     }
     
     /*times( &end );*/
