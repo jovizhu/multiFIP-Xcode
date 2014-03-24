@@ -496,18 +496,22 @@ int main( int argc, char *argv[] ) {
     load_fct_file( fct_file );
     
     if ( gcmd_line.display_info >= 1 ) {
-        printf(" ... done.\n");
+        printf(" ... original purpose fact file done.\n");
     }
     
     load_mul_file( mul_file );
     
     if ( gcmd_line.display_info >= 1 ) {
-        printf("... done.\n");
+        printf("... multiple purpose fact file done.\n");
     }
     
     /* This is needed to get all types.*/
     /* modified by jovi: adding supprot for addtional constant */
     build_orig_constant_list();
+    
+    if ( gcmd_line.display_info >= 1 ) {
+        printf(" ... build_orig_constant_list() done.\n");
+    }
     
     /* last step of parsing: see if it's an ADL domain!
      */
@@ -516,7 +520,9 @@ int main( int argc, char *argv[] ) {
         printf("\n    can't be handled by this version.\n\n");
         exit( 1 );
     }
-    
+    if ( gcmd_line.display_info >= 1 ) {
+        printf(" ... make_adl_domain() done.\n");
+    }
     
     /* now instantiate operators;
      */
@@ -532,6 +538,9 @@ int main( int argc, char *argv[] ) {
      */
     encode_domain_in_integers();
     
+    if ( gcmd_line.display_info >= 1 ) {
+        printf(" ... encode_domain_in_integers() done.\n");
+    }
     /* inertia preprocessing, first step:
      *   - collect inertia information
      *   - split initial state into
@@ -540,6 +549,9 @@ int main( int argc, char *argv[] ) {
      *        - array containing non - static relations
      */
     do_inertia_preprocessing_step_1();
+    if ( gcmd_line.display_info >= 1 ) {
+        printf(" ... do_inertia_preprocessing_step_1() done.\n");
+    }
     
     /* normalize all PL1 formulae in domain description:
      * (goal, preconds and effect conditions)
@@ -549,17 +561,26 @@ int main( int argc, char *argv[] ) {
      */
     normalize_all_wffs();
     
+    if ( gcmd_line.display_info >= 1 ) {
+        printf(" ... normalize_all_wffs() done.\n");
+    }
+    
     /* translate negative preconds: introduce symmetric new predicate
      * NOT-p(..) (e.g., not-in(?ob) in briefcaseworld)
      */
     translate_negative_preconds();
+    if ( gcmd_line.display_info >= 1 ) {
+        printf(" ... translate_negative_preconds() done.\n");
+    }
     
     /* split domain in easy (disjunction of conjunctive preconds)
      * and hard (non DNF preconds) part, to apply
      * different instantiation algorithms
      */
     split_domain();
-    
+    if ( gcmd_line.display_info >= 1 ) {
+        printf(" ... split_domain() done.\n");
+    }
     
     /***********************************************
      * PREPROCESSING FINISHED                      *
@@ -571,6 +592,10 @@ int main( int argc, char *argv[] ) {
     build_easy_action_templates();
     build_hard_action_templates();
     
+    if ( gcmd_line.display_info >= 1 ) {
+        printf(" ... build_easy_action_template() done.\n");
+    }
+    
     /*times( &end );*/
     ftime(&end);
     TIME( gtempl_time );
@@ -580,6 +605,10 @@ int main( int argc, char *argv[] ) {
     
     /* perform reachability analysis in terms of relaxed  fixpoint */
     perform_reachability_analysis();
+    
+    if ( gcmd_line.display_info >= 1 ) {
+        printf(" ... perform_reachability_analysis() done.\n");
+    }
     
     /*times( &end );*/
     ftime(&end);
