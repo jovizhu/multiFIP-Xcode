@@ -343,7 +343,7 @@ void build_orig_constant_list( void ) {
         }
     }
     
-    printf("DebuInfo: finish gadd_load_ops \n");
+    printf("\nDebugInfo: finish gadd_load_ops. \n");
     /* now get the numbers of all composed either types
      */
     for ( i = 0; i < lnum_types; i++ ) {
@@ -364,7 +364,7 @@ void build_orig_constant_list( void ) {
         }
     }
     
-	printf("DebuInfo: finish parsing type, constants, objects \n");
+	printf("\nDebugInfo: finish parsing type, constants, objects. \n");
 	 
     make_either_ty_in_pl( gorig_goal_facts );
     for ( po = gloaded_ops; po; po = po->next ) {
@@ -374,7 +374,7 @@ void build_orig_constant_list( void ) {
             make_either_ty( tyl );
         }
     }
-     printf("DebuInfo: finish make_either_ty_in_pl \n");
+     printf("\nDebugInfo: finish make_either_ty_in_pl. \n");
 	 
     /* modified by jovi */
     /* support multiple goals */
@@ -386,7 +386,7 @@ void build_orig_constant_list( void ) {
             make_either_ty ( tyl );
         }
     }
-     printf("DebuInfo: finish make_either_ty_in_pl for multiple purpose \n");
+     printf("\nDebugInfo: finish make_either_ty_in_pl for multiple purpose \n");
     
     /* now, compute the transitive closure of all type inclusions.
      * first initialize the matrix.
@@ -603,7 +603,7 @@ void build_orig_constant_list( void ) {
     /* jovi: update to support multiple purposes */
     normalize_tyl_in_pl( &gadd_orig_goal_facts );
 	
-    printf("Debug Info: normalize_tyl_in_pl for multiple purpose done\n");
+    printf("\nDebugInfo: normalize_tyl_in_pl for multiple purpose done\n");
     
     for ( pao = gadd_loaded_ops; pao; pao = pao->next ) {
         normalize_tyl_in_pl( &pao->preconds );
@@ -650,7 +650,7 @@ void build_orig_constant_list( void ) {
         free_TypedList( pao->parse_params );
         pao->parse_params = NULL;
     }
-    	printf("Debug Info: parsing ops for multiple purpose done\n");
+    	printf("\nDebugInfo: parsing ops for multiple purpose done\n");
     
     /* finally, build  gpredicates_and_types  by chaining predicate names
      * together with the names of their args' types.

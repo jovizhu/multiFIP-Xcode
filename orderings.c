@@ -232,13 +232,13 @@ void build_False_set_for_multiple_purpose ( int ft ) {
   lnum_ch = 0;
 
   count = 0;
-  for ( i = 0; i < gadd_ft_conn[ft].num_A; i++ ) {
+  for ( i = 0; i < gft_conn[ft].num_A; i++ ) {
 
-    ef = gadd_ft_conn[ft].A[i];
+    ef = gft_conn[ft].A[i];
     count++;
 
-    for ( j = 0; j < gadd_ef_conn[ef].num_D; j++ ) {
-      ft_ = gadd_ef_conn[ef].D[j];
+    for ( j = 0; j < gef_conn[ef].num_D; j++ ) {
+      ft_ = gef_conn[ef].D[j];
       lDcount[ft_]++;
       if ( !lin_ch[ft_] ) {
 	lch[lnum_ch++] = ft_;
@@ -246,11 +246,11 @@ void build_False_set_for_multiple_purpose ( int ft ) {
       }
     }
 
-    for ( j = 0; j < gadd_ef_conn[ef].num_I; j++ ) {
-      ef_ = gadd_ef_conn[ef].I[j];
+    for ( j = 0; j < gef_conn[ef].num_I; j++ ) {
+      ef_ = gef_conn[ef].I[j];
       count++;
-      for ( k = 0; k < gadd_ef_conn[ef_].num_D; k++ ) {
-	ft_ = gadd_ef_conn[ef_].D[k];
+      for ( k = 0; k < gef_conn[ef_].num_D; k++ ) {
+	ft_ = gef_conn[ef_].D[k];
 	lDcount[ft_]++;
 	if ( !lin_ch[ft_] ) {
 	  lch[lnum_ch++] = ft_;
@@ -264,13 +264,13 @@ void build_False_set_for_multiple_purpose ( int ft ) {
    *
    * DANGER: this relies on that the function is called only once for each fact ft
    */
-  gadd_ft_conn[ft].False = ( int * ) calloc( lnum_ch, sizeof( int ) );
+  gft_conn[ft].False = ( int * ) calloc( lnum_ch, sizeof( int ) );
 
-  gadd_ft_conn[ft].num_False = 0;
+  gft_conn[ft].num_False = 0;
   for ( i = 0; i < lnum_ch; i++ ) {
     if ( lDcount[lch[i]] == count ) {
       /* each adder deleted this fact */
-      gadd_ft_conn[ft].False[gadd_ft_conn[ft].num_False++] = lch[i];
+      gft_conn[ft].False[gft_conn[ft].num_False++] = lch[i];
     }
   }
 
@@ -284,9 +284,9 @@ void build_False_set_for_multiple_purpose ( int ft ) {
     printf("\n\ncomputed False set of ");
     print_ft_name( ft );
     printf(" as follows:");
-    for ( i = 0; i < gadd_ft_conn[ft].num_False; i++ ) {
+    for ( i = 0; i < gft_conn[ft].num_False; i++ ) {
       printf("\n");
-      print_ft_name( gadd_ft_conn[ft].False[i] );
+      print_ft_name( gft_conn[ft].False[i] );
     }
   }
 
@@ -477,17 +477,17 @@ void setup_E_for_multiple_purpose ( int ft ) {
   lnum_ch = 0;
 
   /* efs that imply a delete ef to ft */
-  for ( i = 0; i < gadd_ft_conn[ft].num_D; i++ ) {
+  for ( i = 0; i < gft_conn[ft].num_D; i++ ) {
 
-    ef = gadd_ft_conn[ft].D[i];
+    ef = gft_conn[ft].D[i];
     if ( !lin_ch[ef] ) {
       lin[ef] = FALSE;
       lch[lnum_ch++] = ef;
       lin_ch[ef] = TRUE;
     }
 
-    for ( j = 0; j < gadd_ef_conn[ef].num_I; j++ ) {
-      ef_ = gadd_ef_conn[ef].I[j];
+    for ( j = 0; j < gef_conn[ef].num_I; j++ ) {
+      ef_ = gef_conn[ef].I[j];
       if ( !lin_ch[ef_] ) {
 	lin[ef_] = FALSE;
 	lch[lnum_ch++] = ef_;
@@ -498,10 +498,10 @@ void setup_E_for_multiple_purpose ( int ft ) {
   }
 
   /* efs that use False preconds */
-  for ( i = 0; i < gadd_ft_conn[ft].num_False; i++ ) {
-    ft_ = gadd_ft_conn[ft].False[i];
-    for ( j = 0; j < gadd_ft_conn[ft_].num_PC; j++ ) {
-      ef = gadd_ft_conn[ft_].PC[j];
+  for ( i = 0; i < gft_conn[ft].num_False; i++ ) {
+    ft_ = gft_conn[ft].False[i];
+    for ( j = 0; j < gft_conn[ft_].num_PC; j++ ) {
+      ef = gft_conn[ft_].PC[j];
       if ( !lin_ch[ef] ) {
 	lin[ef] = FALSE;
 	lch[lnum_ch++] = ef;
@@ -565,22 +565,22 @@ Bool possibly_achievable_for_multiple_purpose ( int ft ) {
   int i, j, k;
   int ef, ft_;
 
-  for ( i = 0; i < gadd_ft_conn[ft].num_A; i++ ) {
-    ef = gadd_ft_conn[ft].A[i];
+  for ( i = 0; i < gft_conn[ft].num_A; i++ ) {
+    ef = gft_conn[ft].A[i];
     if ( !lin[ef] ) {
       continue; }
-    for ( j = 0; j < gadd_ef_conn[ef].num_PC; j++ ) {
-      ft_ = gadd_ef_conn[ef].PC[j];
-      for ( k = 0; k < gadd_ft_conn[ft_].num_A; k++ ) {
+    for ( j = 0; j < gef_conn[ef].num_PC; j++ ) {
+      ft_ = gef_conn[ef].PC[j];
+      for ( k = 0; k < gft_conn[ft_].num_A; k++ ) {
 	if ( lin[gft_conn[ft_].A[k]] ) {
 	  break;
 	}
       }
-      if ( k == gadd_ft_conn[ft_].num_A ) {
+      if ( k == gft_conn[ft_].num_A ) {
 	break;
       }
     }
-    if ( j < gadd_ef_conn[ef].num_PC ) {
+    if ( j < gef_conn[ef].num_PC ) {
       continue;
     }
     return TRUE;

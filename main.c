@@ -343,28 +343,29 @@ int gnum_IV = 0;
 OpConn *gop_conn;
 int gnum_op_conn;
 
-/* jovi: add for multiple purpose */
+/* jovi: add for multiple purpose, do not need anymore
 OpConn *gadd_op_conn;
 int gadd_num_op_conn;
-
+*/
 /* one effects array ...
  */
 EfConn *gef_conn;
 int gnum_ef_conn;
 
-/* jovi: add for multiple purpose */
+/* jovi: add for multiple purpose
 EfConn *gadd_ef_conn;
 int gadd_num_ef_conn;
-
+*/
 /* one facts array.
  */
 FtConn *gft_conn;
 int gnum_ft_conn;
 
-/* jovi: add for multiple purpose */
+/* jovi: add for multiple purpose
 FtConn *gadd_ft_conn;
 int gadd_num_ft_conn;
 
+*/
 /*******************
  * SEARCHING NEEDS *
  *******************/
@@ -464,7 +465,7 @@ int main( int argc, char *argv[] ) {
         !gcmd_line.fct_file_name ||
         !gcmd_line.mul_file_name ) {
         
-        fprintf(stdout, "\nff: three input files needed\n\n");
+        fprintf(stdout, "\nmul-fip : three input files needed\n");
         ff_usage();
         exit( 1 );
     }
@@ -488,19 +489,19 @@ int main( int argc, char *argv[] ) {
     load_ops_file( ops_file );
     /* problem file (facts) */
     if ( gcmd_line.display_info >= 1 ) {
-        printf("\nmul-fip: parsing problem file.\n");
+        printf("\nDebugInfo: parsing problem file.\n");
     }
     
     load_fct_file( fct_file );
     
     if ( gcmd_line.display_info >= 1 ) {
-        printf("\nmul-fip: original purpose fact file done.\n");
+        printf("\nDebugInfo: original purpose fact file done.\n");
     }
     
     load_mul_file( mul_file );
     
     if ( gcmd_line.display_info >= 1 ) {
-        printf("\nmul-fip: multiple purpose fact file done.\n");
+        printf("\nDebugInfo: multiple purpose fact file done.\n");
     }
     
     /* This is needed to get all types.*/
@@ -508,18 +509,18 @@ int main( int argc, char *argv[] ) {
     build_orig_constant_list();
     
     if ( gcmd_line.display_info >= 1 ) {
-        printf("\nmul-fip: build_orig_constant_list() done.\n");
+        printf("\nDebugInfo: build_orig_constant_list() done.\n");
     }
     
     /* last step of parsing: see if it's an ADL domain!
      */
     if ( !make_adl_domain() ) {
-        printf("\nff: this is not an ADL problem!");
-        printf("\n    can't be handled by this version.\n\n");
+        printf("\nmul-fip: this is not an ADL problem!");
+        printf("\n\tcan't be handled by this version.\n\n");
         exit( 1 );
     }
     if ( gcmd_line.display_info >= 1 ) {
-        printf("\nmul-fip: make_adl_domain() done.\n");
+        printf("\nDebugInfo: make_adl_domain() done.\n");
     }
     
     /* now instantiate operators;
@@ -537,7 +538,7 @@ int main( int argc, char *argv[] ) {
     encode_domain_in_integers();
     
     if ( gcmd_line.display_info >= 1 ) {
-        printf("\nmul-fip: encode_domain_in_integers() done.\n");
+        printf("\nDebugInfo: encode_domain_in_integers() done.\n");
     }
     /* inertia preprocessing, first step:
      *   - collect inertia information
@@ -548,7 +549,7 @@ int main( int argc, char *argv[] ) {
      */
     do_inertia_preprocessing_step_1();
     if ( gcmd_line.display_info >= 1 ) {
-        printf("\nmul-fip: do_inertia_preprocessing_step_1() done.\n");
+        printf("\nDebugInfo: do_inertia_preprocessing_step_1() done.\n");
     }
     
     /* normalize all PL1 formulae in domain description:
@@ -560,7 +561,7 @@ int main( int argc, char *argv[] ) {
     normalize_all_wffs();
     
     if ( gcmd_line.display_info >= 1 ) {
-        printf("\nmul-fip: normalize_all_wffs() done.\n");
+        printf("\nDebugInfo: normalize_all_wffs() done.\n");
     }
     
     /* translate negative preconds: introduce symmetric new predicate
@@ -568,7 +569,7 @@ int main( int argc, char *argv[] ) {
      */
     translate_negative_preconds();
     if ( gcmd_line.display_info >= 1 ) {
-        printf("\nmul-fip: translate_negative_preconds() done.\n");
+        printf("\nDebugInfo: translate_negative_preconds() done.\n");
     }
     
     /* split domain in easy (disjunction of conjunctive preconds)
@@ -577,7 +578,7 @@ int main( int argc, char *argv[] ) {
      */
     split_domain();
     if ( gcmd_line.display_info >= 1 ) {
-        printf("\nmul-fip: split_domain() done.\n");
+        printf("\nDebugInfo: split_domain() done.\n");
     }
     
     /***********************************************
@@ -591,7 +592,7 @@ int main( int argc, char *argv[] ) {
     build_hard_action_templates();
     
     if ( gcmd_line.display_info >= 1 ) {
-        printf("\nmul-fip: build_easy_action_template() done.\n");
+        printf("\nDebugInfo: build_easy_action_template() done.\n");
     }
     
     /*times( &end );*/
@@ -605,7 +606,7 @@ int main( int argc, char *argv[] ) {
     perform_reachability_analysis();
     
     if ( gcmd_line.display_info >= 1 ) {
-        printf("\nmul-fip: perform_reachability_analysis() done.\n");
+        printf("\nDebugInfo: perform_reachability_analysis() done.\n");
     }
     
     /*times( &end );*/
@@ -618,7 +619,9 @@ int main( int argc, char *argv[] ) {
     /* collect the relevant facts and build final domain
      * and problem representations.*/
     collect_relevant_facts();
-    
+    if ( gcmd_line.display_info >= 1 ) {
+        printf("\nDebugInfo: collect_relevant_facts.\n");
+    }
     /*times( &end );*/
     ftime(&end);
     TIME( grelev_time );
@@ -628,6 +631,9 @@ int main( int argc, char *argv[] ) {
     
     /* now build globally accessable connectivity graph */
     build_connectivity_graph();
+    if ( gcmd_line.display_info >= 1 ) {
+        printf("\nDebugInfo: build_connectivity_graph().\n");
+    }
     
     /*times( &end );*/
     ftime(&end);
@@ -646,7 +652,9 @@ int main( int argc, char *argv[] ) {
      * goal set into sequence of smaller sets, the goal agenda
      */
     compute_goal_agenda();
-    
+    if ( gcmd_line.display_info >= 1 ) {
+        printf("\nDebugInfo: compute_goal_agenda().\n");
+    }
     /*debugit(&ginitial_state);*/
     /* make space in plan states info, and relax
      * make sapce is initialize the space for gplan_states and
@@ -670,9 +678,12 @@ int main( int argc, char *argv[] ) {
     
     for ( i = 0; i < gnum_goal_agenda; i++ ) {
         /* JC add a hashtable creating in do_enforced_hill_climbling*/
-        if ( !do_enforced_hill_climbing( &current_start, &current_end ) ) {
-            break;
-        }
+		if (!do_enforced_hill_climbing(&current_start, &current_end)) {
+			if (gcmd_line.display_info >= 1) {
+				printf("\nDebugInfo: do_enforced_hill_climbling() exit .\n");
+			}
+			break;
+		}
         source_to_dest( &current_start, &(gplan_states[gnum_plan_ops]) );
         if ( i < gnum_goal_agenda - 1 ) {
             for ( j = 0; j < ggoal_agenda[i+1].num_F; j++ ) {
@@ -684,13 +695,20 @@ int main( int argc, char *argv[] ) {
     found_plan = ( i == gnum_goal_agenda ) ? TRUE : FALSE;
 
     if ( !found_plan ) {
-        printf("\n\nEnforced Hill-climbing failed !");
-        printf("\nswitching to Best-first Search now.\n");
+        printf("\nDebugInfo: switching to Best-first Search now.\n");
         reset_ff_states();
         found_plan = do_best_first_search();
     }
     
-    if ( found_plan ) {
+
+    if ( gcmd_line.display_info >= 1 ) {
+    	printf("\n************************************************\n");
+        printf("\n*  mul-fip: fip plan finished for single goal. *\n");
+        printf("\n************************************************\n");
+    }
+    print_plan();
+
+    if ( !found_plan ) {
         /*print_plan();*/
         /* D action add to group */
         build_action_group();
@@ -762,23 +780,45 @@ int main( int argc, char *argv[] ) {
     /********************************************
      * Multiple Purpose Planning                *
      ********************************************/
+
+    if ( gcmd_line.display_info >= 1 ) {
+    	printf("\n************************************************\n");
+        printf("\n*  mul-fip: multiple purpose planning          *\n");
+        printf("\n************************************************\n");
+    }
     ftime(&start);
     update_reachability_analysis_for_multiple_purpose ();
     ftime(&end);
     TIME( gadd_reach_time );
     
+    if ( gcmd_line.display_info >= 1 ) {
+        printf("\nDebugInfo: update_reachability_analysis_for_multiple_purpose() finished\n");
+    }
+
     ftime(&start);
     update_relevant_facts_for_multiple_purpose ();
     ftime(&end);
     TIME( gadd_relev_time );
     
+    if ( gcmd_line.display_info >= 1 ) {
+        printf("\nDebugInfo: update_relevant_facts_for_multiple_purpose() finished\n");
+    }
+
     ftime(&start);
     update_connectivity_graph_for_multiple_purpose();
     ftime(&end);
     TIME( gadd_conn_time );
     
+    if ( gcmd_line.display_info >= 1 ) {
+        printf("\nDebugInfo: update_connectivity_graph_for_multiple_purpose() finished\n");
+    }
+
     compute_goal_agenda_for_multiple_purpose ();
     
+    if ( gcmd_line.display_info >= 1 ) {
+        printf("\nDebugInfo: compute_goal_agenda_for_multiple_purpose() finished\n");
+    }
+
     for ( i = 0; i < MAX_PLAN_LENGTH + 1; i++ ) {
         make_state( &(gadd_plan_states[i]), gnum_ft_conn );
         gadd_plan_states[i].max_F = gnum_ft_conn;
@@ -801,14 +841,83 @@ int main( int argc, char *argv[] ) {
     
     found_plan_for_multiple_purpose = ( i == gadd_num_goal_agenda ) ? TRUE : FALSE;
     
+    if ( gcmd_line.display_info >= 1 ) {
+    	printf("\n************************************************\n");
+        printf("\n*  mul-fip: fip plan finished for multiple goal. *\n");
+        printf("\n************************************************\n");
+    }
+
     if ( !found_plan_for_multiple_purpose ) {
         printf("\n\nEnforced Hill-climbing failed !");
         printf("\nswitching to Best-first Search now.\n");
         reset_ff_states();
-        found_plan = do_best_first_search();
+        found_plan_for_multiple_purpose = do_best_first_search();
     }
     
-    
+    print_plan();
+
+    if ( !found_plan_for_multiple_purpose ) {
+        /*print_plan();*/
+        /* D action add to group */
+        build_action_group();
+
+        gfipPlan.num_sons = 0;
+        gfipPlan.action = -1;
+
+        print_plan();
+
+        /*put the ultimate goal to the solved set*/
+        StateActionPair *g = new_StateActionPair();
+        make_state(&g->state, gnum_ft_conn);
+        g->state.max_F = gnum_ft_conn;
+        source_to_dest(&g->state, &ggoal_state);
+        g->state.num_L = 1;
+        g->state.L[0] = 10000000; /*make it the biggest*/
+        add_solved_state(g);
+        /*ugly, but work*/
+
+        convert_ff_plan_to_fip_plan( &gfipPlan );
+
+        solve_unsolved_states();
+
+        if(!gsolved_states){
+            printf("No solutions are found! The problem is unsolvable.\n");
+            exit(0);
+        }else if(g_is_strong){
+            StateActionPair *ptr = gsolved_states;
+            Bool valid = FALSE;
+            while(ptr){
+                if(ptr->state.num_L == 1 && ptr->state.L[0] == 1){
+                    valid = TRUE;
+                    break;
+                }
+                ptr = ptr->next;
+            }
+            if(!valid){
+                printf("The initial state is a dead-end! The problem is unsolvable.\n");
+                exit(0);
+            }
+        }
+
+        printf("##########################################\n");
+        printf("#####   PROCEDURE-LIKE CODE   ############\n");
+        printf("##########################################\n");
+        /* print_fip_plan_1( is_solved_state(&ginitial_state) , &gfipPlan, 1); */
+
+        /* times( &end ); */
+        ftime(&end);
+        TIME( gsearch_time );
+
+        /* myend = clock(); */
+        ftime(&myend);
+
+        /* printf("my cac is %7.3f\n", 1.0*(myend.millitm - mystart.millitm)/1000.0); */
+        print_fip_plan_2();
+
+        if(to_print_state)
+            print_all_states();
+        /* print_fip_plan_3( &gfipPlan, 0 ); */
+    }
     /*****************************************************************************************/
     printf("\n\n");
     exit( 0 );
@@ -835,7 +944,7 @@ void output_planner_info( void ) {
     
     printf("\n\n");
     
-    exit( 0 );
+    /*exit( 0 );*/
     
     print_official_result();
     
@@ -875,7 +984,6 @@ void print_official_result( void )
 
 
 void print_official_op_name( int index )
-
 {
     
     int i;

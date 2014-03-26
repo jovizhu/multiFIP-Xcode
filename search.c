@@ -216,13 +216,13 @@ Bool do_enforced_hill_climbing_for_multiple_purpose ( State *start, State *end )
 
 	if ( first_call_for_multiple_purpose ) {
 
-		make_state( &S, gadd_num_ft_conn ); 
-		S.max_F = gadd_num_ft_conn;
-		make_state( &S_, gadd_num_ft_conn );
-		S_.max_F = gadd_num_ft_conn;
+		make_state( &S, gnum_ft_conn );
+		S.max_F = gnum_ft_conn;
+		make_state( &S_, gnum_ft_conn );
+		S_.max_F = gnum_ft_conn;
 
-		make_state( &lcurrent_goals, gadd_num_ft_conn );
-		lcurrent_goals.max_F = gadd_num_ft_conn;
+		make_state( &lcurrent_goals, gnum_ft_conn );
+		lcurrent_goals.max_F = gnum_ft_conn;
 
 		first_call_for_multiple_purpose  = FALSE;
 	}
@@ -233,6 +233,14 @@ Bool do_enforced_hill_climbing_for_multiple_purpose ( State *start, State *end )
 
 	/*seems get a heuristic*/
 	h = get_1P_and_H( &S, &lcurrent_goals );
+
+    if ( gcmd_line.display_info >= 1 ) {
+    	printf("\nDebugInfo: Current goal is ");
+    	print_state(lcurrent_goals);
+    	printf("\n");
+    }
+
+
 
 	if ( h == INFINITY ) {
 		return FALSE;
@@ -639,7 +647,7 @@ void extract_plan_fragment( State *S ) {
 			break;
 		}
 		if ( num_ops == MAX_PLAN_LENGTH ) {
-			printf("\nincrease MAX_PLAN_LENGTH! currently %d\n\n",
+			printf("\nmul-fip: increase MAX_PLAN_LENGTH! currently %d. \n",
 				MAX_PLAN_LENGTH);
 			exit( 1 );
 		}
@@ -649,18 +657,18 @@ void extract_plan_fragment( State *S ) {
 	if ( !start ) {
 		start = plan_state_hashed( S );
 		if ( !start ) {
-			printf("\n\ncurrent start state not hashed! debug me!\n\n");
+			printf("\nmul-fip: current start state not hashed! debug me!\n");
 			exit( 1 );
 		}
 		if ( start->step == -1 ) {
-			printf("\n\ncurrent start state marked removed from plan! debug me!\n\n");
+			printf("\nmul-fip: current start state marked removed from plan! debug me!\n");
 			exit( 1 );
 		}
 	}
 
 	for ( j = num_ops - 1; j > -1; j-- ) {
 		if ( gnum_plan_ops == MAX_PLAN_LENGTH ) {
-			printf("\nincrease MAX_PLAN_LENGTH! currently %d\n\n",
+			printf("\nmul-fip: increase MAX_PLAN_LENGTH! currently %d. \n",
 				MAX_PLAN_LENGTH);
 			exit( 1 );
 		}
@@ -719,22 +727,22 @@ PlanHashEntry *hash_plan_state( State *S, int step ) {
 }
 
 
-PlanHashEntry *plan_state_hashed( State *S )
-
-{
+PlanHashEntry *plan_state_hashed(State *S) {
 
 	int sum, index;
 	PlanHashEntry *h;
 
-	sum = state_sum( S );
+	sum = state_sum(S);
 	index = sum & PLAN_HASH_BITS;
 
-	for ( h = lplan_hash_entry[index]; h; h = h->next ) {
-		if ( h->sum != sum ) continue;
-		if ( same_state( S, &(h->S) ) ) break;
+	for (h = lplan_hash_entry[index]; h; h = h->next) {
+		if (h->sum != sum)
+			continue;
+		if (same_state(S, &(h->S)))
+			break;
 	}
 
-	if ( h && h->step != -1 ) {
+	if (h && h->step != -1) {
 		return h;
 	}
 	return NULL;
@@ -1125,19 +1133,25 @@ void copy_source_to_dest( State *dest, State *source ) {
 
 
 
-void print_state( State S )
-
-{
-
+void print_state(State S) {
 	int i;
 
-	for ( i = 0; i < S.num_F; i++ ) {
-		printf("\n");
-		print_ft_name( S.F[i] );
+	for (i = 0; i < S.num_F; i++) {
+		printf("(");
+		print_ft_name(S.F[i]);
+		printf(")\t");
 	}
 
 }
 
+void print_pre_conditon(int ops) {
+	int ef, j;
+	ef = gop_conn[ops].E[0];
+	for (j = 0; j < gef_conn[ef].num_PC; j++) {
+		print_ft_name(gef_conn[ef].PC[j]);
+		printf("\t");
+	}
+}
 
 void reset_search( void ){
 

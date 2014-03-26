@@ -223,7 +223,7 @@ Bool is_weak_less_than(State s1, State s2){
 void print_state_level(State s){
 	int i;
 	for(i = 0; i < s.num_L; i++){
-		printf("%d.", s.L[i]);
+		printf("state level: %d.", s.L[i]);
 	}
 	printf("\n");
 }
@@ -288,12 +288,11 @@ void disable_actions(State*s, int index){
 		int i;
 		for(i = 0; i < pGroup->num_actions; i++){					
 			if(gnum_IV >= MAX_INVALID_ACTIONS){
-				printf("Please increase the amount of MAX_INVALID_ACTIONS\n");
+				printf("\nmul-fip: Please increase the amount of MAX_INVALID_ACTIONS\n");
 				exit(0);
 			}
 
-			printf("debug: action disabled\n");
-			printf("\n gnum_IV is %d\n", gnum_IV);
+			printf("\nmul-fip:debug: action disabled\n\tgnum_IV is %d\n",gnum_IV);
 			print_op_name(pGroup->actions[i]);
 						
 
@@ -310,7 +309,7 @@ void disable_actions(State*s, int index){
 			addToLeaf(s, pGroup->actions[i]);
 		}
 	}else{
-		printf("debug: action disabled\n");
+		printf("\nmul-fip: debug action disabled\n");
 		print_op_name(index);
 
 		gInvActs[gnum_IV++].act = index;
@@ -599,10 +598,9 @@ StateActionPair* transferToNextState( StateActionPair *pCurrent, int op ){
 	p = is_solved_state( &next );
 
 	if( !p ){
-		printf("State S%d has not been solved yet.", pCurrent->id );		
-		printf("\n");
+		printf("\nmul-fip: State S%d has not been solved yet.\n", pCurrent->id );
 		/*printf("is it a goal state?\n");*/
-		printf("There is no strong solution available\n");
+		printf("\tThere is no strong solution available\n");
 		exit( 1 );
 	}
 

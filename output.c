@@ -718,26 +718,23 @@ void print_ft_name( int index )
 
 
 
-void print_op_name( int index )
-
-{
+void print_op_name(int index) {
 
 	int i;
 	Action *a = gop_conn[index].action;
 
-	if ( !a->norm_operator &&
-		!a->pseudo_action ) {
-			printf("REACH-GOAL");
+	if (!a->norm_operator && !a->pseudo_action) {
+		printf("REACH-GOAL");
 	} else {
 		char *name = a->name;
-		if ( name ) {
-			if(is_D_action(name)){
-				printf("%s", name+4);
+		if (name) {
+			if (is_D_action(name)) {
+				printf("%s", name + 4);
 			} else {
 				printf("%s", name);
 			}
-		} 
-		for ( i = 0; i < a->num_name_vars; i++ ) {
+		}
+		for (i = 0; i < a->num_name_vars; i++) {
 			printf(" %s", gconstants[a->name_inst_table[i]]);
 		}
 	}
@@ -754,13 +751,15 @@ void print_op_name( int index )
 */
 
 /* gplan_ops[] */
-void print_plan( void ) {  
+void print_plan(void) {
 
 	int i, ef, j;
 
-	printf("\n\nff: found legal plan as follows");
-	printf("\n\nstep ");
-	for ( i = 0; i < gnum_plan_ops; i++ ) {
+	printf("\n************************************************\n");
+	printf("\n*  mul-fip: found legal plan as follows. *\n");
+	printf("\n************************************************\n");
+	printf("\n\n");
+	for (i = 0; i < gnum_plan_ops; i++) {
 		/*     printf("\n\nnstate:"); */
 		/*     print_state(gplan_states[i]); */
 
@@ -769,10 +768,52 @@ void print_plan( void ) {
 		/*     for ( j =0; j < gef_conn[ef].num_PC; j++ ) { */
 		/*       print_ft_name(gef_conn[ef].PC[j]); */
 		/*     } */
-
+		printf("prec:\n");
+		print_pre_conditon(gplan_ops[i]);
+		printf("\n");
+		printf("step");
 		printf("%4d: ", i);
-		print_op_name( gplan_ops[i] );
-		printf("\n     ");
+		print_op_name(gplan_ops[i]);
+
+		printf("\n---------------------------------------------\n");
+
 	}
 
+	printf("\n************************************************\n");
+}
+
+
+/* gplan_ops[] */
+void print_plan_with_states (void) {
+
+	int i, ef, j;
+
+	printf("\n************************************************\n");
+	printf("\n*  mul-fip: found legal plan as follows. *\n");
+	printf("\n************************************************\n");
+	printf("\n\n");
+	for (i = 0; i < gnum_plan_ops; i++) {
+		/*     printf("\n\nnstate:"); */
+		/*     print_state(gplan_states[i]); */
+
+		/*     printf("\n\nprec:"); */
+		/*     ef = gop_conn[gplan_ops[i]].E[0]; */
+		/*     for ( j =0; j < gef_conn[ef].num_PC; j++ ) { */
+		/*       print_ft_name(gef_conn[ef].PC[j]); */
+		/*     } */
+		printf("\nstate:\n");
+		print_state(gplan_states[i]);
+		printf("\n");
+		printf("prec:\n");
+		print_pre_conditon(gplan_ops[i]);
+		printf("\n");
+		printf("step");
+		printf("%4d: ", i);
+		print_op_name(gplan_ops[i]);
+
+		printf("\n---------------------------------------------\n");
+
+	}
+
+	printf("\n************************************************\n");
 }

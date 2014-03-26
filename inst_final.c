@@ -2490,7 +2490,7 @@ void update_connectivity_graph_for_multiple_purpose ( void ) {
         }
         
         printf("\n\n----------------------FT ARRAY:-----------------------------");
-        for ( i = 0; i < gadd_num_ft_conn; i++ ) {
+        for ( i = 0; i < gnum_ft_conn; i++ ) {
             printf("\n\nFT: ");
             print_ft_name( i );
             printf(" rand: %d", gft_conn[i].rand);
