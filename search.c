@@ -210,6 +210,14 @@ Bool do_enforced_hill_climbing( State *start, State *end ) {
 /* jovi: add for multiple purpose */
 Bool do_enforced_hill_climbing_for_multiple_purpose ( State *start, State *end ) {
 
+    if ( gcmd_line.display_info >= 1 ) {
+        printf("\nDebugInfo: do_enforced_hill_climbing_for_multiple_purpose \n");
+        printf("start:");
+        print_state(*start);
+        printf("end:");
+        print_state(*end);
+    }
+
 	static Bool first_call_for_multiple_purpose  = TRUE;
 	static State S, S_;
 	int i, h, h_;
@@ -1060,8 +1068,8 @@ int result_to_dest( State *dest, State *source, int op ) {
 	}
 
 	/* now, finally, add all fullfilled effect adds to dest; 
-	* each fact at most once!
-	*/
+     * each fact at most once!
+	 */
 	for ( i = 0; i < gop_conn[op].num_E; i++ ) {
 		if ( !true_ef[i] ) continue;
 		ef = gop_conn[op].E[i];

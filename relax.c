@@ -318,7 +318,7 @@ int build_fixpoint( State *S ) {
 }
 
 
-/* Initialzie the state S */
+/* Initialzie the state S to lF and gft_conn */
 void initialize_fixpoint( State *S ) {
     
     int i;
