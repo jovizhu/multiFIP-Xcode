@@ -214,7 +214,7 @@ Bool do_enforced_hill_climbing_for_multiple_purpose ( State *start, State *end )
         printf("\nDebugInfo: do_enforced_hill_climbing_for_multiple_purpose \n");
         printf("start:");
         print_state(*start);
-        printf("end:");
+        printf("\n\nend:");
         print_state(*end);
     }
 
@@ -241,7 +241,11 @@ Bool do_enforced_hill_climbing_for_multiple_purpose ( State *start, State *end )
 
 	/*seems get a heuristic*/
 	h = get_1P_and_H( &S, &lcurrent_goals );
-
+    
+    if ( gcmd_line.display_info >= 1 ) {
+        printf("\nDebugInfo: get_1P_and_H get heuristic: %4d\n", h);
+    }
+    
     if ( gcmd_line.display_info >= 1 ) {
     	printf("\nDebugInfo: Current goal is ");
     	print_state(lcurrent_goals);
@@ -259,7 +263,7 @@ Bool do_enforced_hill_climbing_for_multiple_purpose ( State *start, State *end )
 	printf("\n\nCueing down from goal distance: %4d into depth", h);
 
 	while ( h != 0 ) {
-		if ( !search_for_better_state( &S, h, &S_, &h_ ) ) {
+		if ( !search_for_better_state_for_multiple_purpose( &S, h, &S_, &h_ ) ) {
 			return FALSE;
 		}
 
@@ -372,7 +376,100 @@ Bool search_for_better_state ( State *S, int h, State *S_, int *h_ ) {
 	return TRUE;
 }
 
-
+/*************************************************
+ * FUNCTIONS FOR BREADTH FIRST SEARCH IN H SPACE *
+ *************************************************/
+Bool search_for_better_state_for_multiple_purpose ( State *S, int h, State *S_, int *h_ ) {
+    
+	static Bool first_call_for_multiple_purpose = TRUE;
+	static State S__;
+    
+	int i, h__, depth = 0, g;
+	EhcNode *tmp;
+    
+	if ( first_call_for_multiple_purpose ) {
+		make_state( &S__, gnum_ft_conn );
+		S__.max_F = gnum_ft_conn;
+		first_call_for_multiple_purpose = FALSE;
+	}
+    
+	/* don't hash states, but search nodes.
+     * this way, don't need to keep states twice in memory */
+	tmp = new_EhcNode();
+	copy_source_to_dest( &(tmp->S), S);
+	hash_ehc_node( tmp );
+    
+	lehc_current_end = lehc_space_head->next;
+	
+	for ( i = 0; i < gnum_H; i++ ) {
+		int k;
+		Bool found = FALSE;
+		for(k = 0; k < gnum_IV; k++){
+			if(same_state(&gInvActs[k].state, S) && gH[i] == gInvActs[k].act){
+				found = TRUE;
+				break;
+			}
+		}
+		if(found) continue;
+        
+		if(is_D_action(gop_conn[gH[i]].action->name)) continue;
+		
+		g = result_to_dest( &S__, S, gH[i] );
+		add_to_ehc_space( &S__, gH[i], NULL, g );
+	}
+    
+	for ( i = 0; i < gnum_H; i++ ) {
+		int k;
+		Bool found = FALSE;
+		for(k = 0; k < gnum_IV; k++){
+			if(same_state(&gInvActs[k].state, S) && gH[i] == gInvActs[k].act){
+				found = TRUE;
+				break;
+			}
+		}
+		if(found) continue;
+        
+		if(!is_D_action(gop_conn[gH[i]].action->name)) continue;
+		
+        /* D_cation, not in the gH */
+		g = result_to_dest( &S__, S, gH[i] );
+		add_to_ehc_space( &S__, gH[i], NULL, g );
+	}
+    
+	lehc_current_start = lehc_space_head->next;
+    
+	while ( TRUE ) {
+		if ( lehc_current_start == lehc_current_end ) {
+			reset_ehc_hash_entrys();
+			free( tmp );
+			return FALSE;
+		}
+		
+		if ( lehc_current_start->depth > depth ) {
+			depth = lehc_current_start->depth;
+			if ( depth > gmax_search_depth ) {
+				gmax_search_depth = depth;
+			}
+			printf("[%d]", depth);
+			fflush( stdout );
+		}
+        
+		h__ = expand_first_node( h );
+		if ( LESS( h__, h ) ) {
+			break;
+		}
+	}
+    
+	reset_ehc_hash_entrys();
+	free( tmp );
+    
+	extract_plan_fragment( S );
+    
+	source_to_dest( S_, &(lehc_current_start->S) );
+	*h_ = h__;
+    
+	return TRUE;
+}
 
 void add_to_ehc_space( State *S, int op, EhcNode *father, int new_goal ) {
 

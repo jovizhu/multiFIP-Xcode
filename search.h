@@ -76,6 +76,7 @@ Bool do_enforced_hill_climbing( State *start, State *end );
 
 
 Bool search_for_better_state( State *S, int h, State *S_, int *h_ );
+Bool search_for_better_state_for_multiple_purpose(State *S, int h, State *S_, int *h_ );
 void add_to_ehc_space( State *S, int op, EhcNode *father, int new_goal );
 int expand_first_node( int h );
 

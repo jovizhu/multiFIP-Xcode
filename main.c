@@ -841,17 +841,19 @@ int main( int argc, char *argv[] ) {
     
     found_plan_for_multiple_purpose = ( i == gadd_num_goal_agenda ) ? TRUE : FALSE;
     
-    if ( gcmd_line.display_info >= 1 ) {
-    	printf("\n************************************************\n");
-        printf("\n*  mul-fip: fip plan finished for multiple goal. *\n");
-        printf("\n************************************************\n");
-    }
+
 
     if ( !found_plan_for_multiple_purpose ) {
         printf("\n\nEnforced Hill-climbing failed !");
         printf("\nswitching to Best-first Search now.\n");
-        reset_ff_states();
+        reset_ff_states_for_multiple_purpose();
         found_plan_for_multiple_purpose = do_best_first_search();
+    }
+    
+    if ( gcmd_line.display_info >= 1 ) {
+    	printf("\n************************************************\n");
+        printf("\n*  mul-fip: fip plan finished for multiple goal. *\n");
+        printf("\n************************************************\n");
     }
     
     print_plan();

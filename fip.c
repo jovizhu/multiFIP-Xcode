@@ -1249,6 +1249,14 @@ void reset_ff_states( void ){
 }
 
 
+void reset_ff_states_for_multiple_purpose ( void ){
+    
+	reset_search();
+	reset_relax();
+	gevaluated_states = 0;
+	gnum_plan_ops = 0;
+	source_to_dest( &(gplan_states[0]), &ginitial_state );
+}
 
 void print_fip_plan_1( StateActionPair *pCurrentState,  
 					  PlanNode	*pPlan,
