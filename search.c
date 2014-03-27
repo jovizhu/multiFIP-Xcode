@@ -964,6 +964,98 @@ Bool do_best_first_search( void ) {
 }
 
 
+/*************************************
+ * Jovi: update for multiple purpose *
+ * BEST FIRST SEARCH IMPLEMENTATION  *
+ *************************************/
+Bool do_best_first_search_for_multiple_purpose ( void ) {
+    
+	static Bool fc_for_multiple_purpose = TRUE; /*first round*/
+	static State S;
+    
+	BfsNode *first;
+	int i, min = INFINITY;
+	Bool start = TRUE;
+    
+	if ( fc_for_multiple_purpose ) {
+		make_state( &S, gnum_ft_conn );
+		S.max_F = gnum_ft_conn;
+		fc_for_multiple_purpose = FALSE;
+	}
+    
+	lbfs_space_head = new_BfsNode();
+	lbfs_space_had = NULL;
+    
+	for ( i = 0; i < BFS_HASH_SIZE; i++ ) {
+		lbfs_hash_entry[i] = NULL;
+	}
+    
+	add_to_bfs_space( &ginitial_state, -1, NULL );
+    
+	while ( TRUE ) {
+		if ( (first = lbfs_space_head->next) == NULL ) {
+			printf("\n\nbest first search space empty! problem proven unsolvable.\n\n");
+			return FALSE;
+		}
+        
+		lbfs_space_head->next = first->next;
+		if ( first->next ) {
+			first->next->prev = lbfs_space_head;
+		}
+        
+		if ( LESS( first->h, min ) ) {
+			min = first->h;
+			if ( start ) {
+				printf("\nadvancing to distance : %4d", min);
+				start = FALSE;
+			} else {
+				printf("\n                        %4d", min);
+			}
+            
+			/*
+             * modified by JC: return ealier
+             */
+            
+			if(is_solved_state( &first->S )){
+				printf("\nstate have seen. return!\n");
+				break;
+			}
+		}
+        
+		if ( first->h == 0 ) {
+			break;
+		}
+        
+		get_A( &(first->S) );
+		for ( i = 0; i < gnum_A; i++ ) {
+            
+			/*if(g_is_strong){*/
+			/*JC: dismiss invalid actions*/
+            int k;
+            Bool found = FALSE;
+            for(k = 0; k < gnum_IV; k++){
+                if(gA[i] == gInvActs[k].act){
+                    found = TRUE;
+                    break;
+                }
+            }
+			/*}*/
+            
+			if(found) continue;
+            
+			result_to_dest( &S, &(first->S), gA[i] );
+			add_to_bfs_space( &S, gA[i], first );
+		}
+        
+		first->next = lbfs_space_had;
+		lbfs_space_had = first;
+	}
+    
+	extract_plan( first );
+	return TRUE;
+}
+
+
 
 void add_to_bfs_space( State *S, int op, BfsNode *father ) {
 
@@ -1004,27 +1096,62 @@ void add_to_bfs_space( State *S, int op, BfsNode *father ) {
 }
 
 
+void add_to_bfs_space_for_multiple_purpose ( State *S, int op, BfsNode *father ) {
+    
+	BfsNode *new, *i;
+	int h;
+    
+	/* see if state is already a part of this search space
+     */
+	if ( bfs_state_hashed( S ) ) {
+		return;
+	}
+    
+	
+	h = get_1P( S, &gadd_goal_state );
+    
+	if ( h == INFINITY ) {
+		return;
+	}
+    
+	for ( i = lbfs_space_head; i->next; i = i->next ) {
+		if ( i->next->h > h ) break;
+	}
+    
+	new = new_BfsNode();
+	copy_source_to_dest( &(new->S), S );
+	new->op = op;
+	new->h = h;
+	new->father = father;
+    
+	new->next = i->next;
+	new->prev = i;
+	i->next = new;
+	if ( new->next ) {
+		new->next->prev = new;
+	}
+    
+	hash_bfs_node( new );
+}
 
-void extract_plan( BfsNode *last )
-
-{
-
+void extract_plan( BfsNode *last ) {
+    
 	BfsNode *i;
 	int ops[MAX_PLAN_LENGTH], num_ops;
 	State_pointer states[MAX_PLAN_LENGTH];
 	int j;
-
+    
 	num_ops = 0;
 	for ( i = last; i->op != -1; i = i->father ) {
 		if ( num_ops == MAX_PLAN_LENGTH ) {
 			printf("\nincrease MAX_PLAN_LENGTH! currently %d\n\n",
-				MAX_PLAN_LENGTH);
+                   MAX_PLAN_LENGTH);
 			exit( 1 );
 		}
 		states[num_ops] = &(i->S);
 		ops[num_ops++] = i->op;
 	}
-
+    
 	gnum_plan_ops = 0;
 	for ( j = num_ops - 1; j > -1; j-- ) {
 		source_to_dest( &(gplan_states[gnum_plan_ops+1]), states[j] );

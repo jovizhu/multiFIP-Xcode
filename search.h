@@ -106,6 +106,8 @@ void add_to_bfs_space( State *S, int op, BfsNode *father );
 void extract_plan( BfsNode *last );
 
 
+Bool do_best_first_search_for_multiple_purpose( void );
+void add_to_bfs_space_for_multiple_purpose ( State *S, int op, BfsNode *father );
 
 void hash_bfs_node( BfsNode *n );
 Bool bfs_state_hashed( State *S );
