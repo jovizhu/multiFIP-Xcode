@@ -990,7 +990,7 @@ Bool do_best_first_search_for_multiple_purpose ( void ) {
 		lbfs_hash_entry[i] = NULL;
 	}
     
-	add_to_bfs_space( &ginitial_state, -1, NULL );
+	add_to_bfs_space_for_multiple_purpose( &ginitial_state, -1, NULL );
     
 	while ( TRUE ) {
 		if ( (first = lbfs_space_head->next) == NULL ) {
@@ -1044,7 +1044,7 @@ Bool do_best_first_search_for_multiple_purpose ( void ) {
 			if(found) continue;
             
 			result_to_dest( &S, &(first->S), gA[i] );
-			add_to_bfs_space( &S, gA[i], first );
+			add_to_bfs_space_for_multiple_purpose( &S, gA[i], first );
 		}
         
 		first->next = lbfs_space_had;
