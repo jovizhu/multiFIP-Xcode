@@ -162,6 +162,30 @@ int get_1P_and_H( State *S, State *current_goals ) {
 }
 
 
+/*get he heuristic data*/
+int get_1P_and_H_for_multiple_purpose ( State *S, State *current_goals ) {
+
+    int h, max;
+
+    source_to_dest( &lcurrent_goals, current_goals );
+
+    gevaluated_states++;
+
+    max = build_fixpoint( S );
+    h = extract_1P_for_multiple_purpose ( max, TRUE );
+
+    if ( gcmd_line.display_info >= 1 ) {
+        printf("\nDebugInfo: extract_1P_for_multiple_purpose get heuristic: %4d\n", h);
+    }
+
+    if ( gcmd_line.display_info == 122 ) {
+        print_fixpoint_result();
+    }
+
+    reset_fixpoint();
+
+    return h;
+}
 
 int get_1P( State *S, State *current_goals ) {
     
@@ -169,6 +193,11 @@ int get_1P( State *S, State *current_goals ) {
     
     source_to_dest( &lcurrent_goals, current_goals );
     
+    if ( gcmd_line.display_info >= 1 ) {
+        printf("\nDebugInfo: in function get_1P.\n the lcurrent_goals is: \n");
+        print_state(lcurrent_goals);
+    }
+
     gevaluated_states++;
     
     max = build_fixpoint( S );
@@ -527,10 +556,54 @@ int extract_1P( int max, Bool H_info ) {
     return lh;
 }
 
+/**************************************
+ * FIRST RELAXED PLAN (1P) EXTRACTION *
+ **************************************/
+int extract_1P_for_multiple_purpose ( int max, Bool H_info ) {
+
+    static Bool first_call_for_multiple_purpose = TRUE;
+    int i, max_goal_level, time;
+
+    if ( first_call_for_multiple_purpose ) {
+        for ( i = 0; i < gnum_ft_conn; i++ ) {
+            gft_conn[i].is_true = INFINITY;
+            gft_conn[i].is_goal = FALSE;
+            gft_conn[i].ch = FALSE;
+        }
+        for ( i = 0; i < gnum_op_conn; i++ ) {
+            gop_conn[i].is_used = INFINITY;
+        }
+        for ( i = 0; i < gnum_ef_conn; i++ ) {
+            gef_conn[i].in_plan = FALSE;
+        }
+        lch_F = ( int * ) calloc( gnum_ft_conn, sizeof( int ) );
+        lnum_ch_F = 0;
+        lused_O = ( int * ) calloc( gnum_op_conn, sizeof( int ) );
+        lnum_used_O = 0;
+        gin_plan_E = ( int * ) calloc( gnum_ef_conn, sizeof( int ) );
+        gnum_in_plan_E = 0;
+        first_call_for_multiple_purpose = FALSE;
+    }
+
+    reset_search_info();
+
+    if ( (max_goal_level = initialize_goals( max )) == INFINITY ) {
+        return INFINITY;
+    }
+
+    lh = 0;
+    for ( time = max_goal_level; time > 0; time-- ) {
+        achieve_goals( time );
+    }
+    if ( H_info ) {
+        collect_H_info();
+    }
+    return lh;
+}
 
 static int highest_seen;
 
-/* retrun the max level of goals*/
+/* return the max level of goals*/
 int initialize_goals( int max ) {
     
     static Bool first_call = TRUE;

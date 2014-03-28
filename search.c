@@ -238,12 +238,16 @@ Bool do_enforced_hill_climbing_for_multiple_purpose ( State *start, State *end )
 	/* start enforced Hill-climbing */
 	source_to_dest( &lcurrent_goals, end );  
 	source_to_dest( &S, start );
-
+    if ( gcmd_line.display_info >= 1 ) {
+        printf("\nDebugInfo: in function do_enforced_hill_climbing_for_multiple_purpose() \n");
+        printf("lcurrent_goals is:");
+        print_state(lcurrent_goals);
+    }
 	/*seems get a heuristic*/
-	h = get_1P_and_H( &S, &lcurrent_goals );
+	h = get_1P_and_H_for_multiple_purpose ( &S, &lcurrent_goals );
     
     if ( gcmd_line.display_info >= 1 ) {
-        printf("\nDebugInfo: get_1P_and_H get heuristic: %4d\n", h);
+        printf("\nDebugInfo: get_1P_and_H_for_multiple_purpose get heuristic: %4d\n", h);
     }
     
     if ( gcmd_line.display_info >= 1 ) {
@@ -1015,7 +1019,6 @@ Bool do_best_first_search_for_multiple_purpose ( void ) {
 			/*
              * modified by JC: return ealier
              */
-            
 			if(is_solved_state( &first->S )){
 				printf("\nstate have seen. return!\n");
 				break;
@@ -1054,7 +1057,6 @@ Bool do_best_first_search_for_multiple_purpose ( void ) {
 	extract_plan( first );
 	return TRUE;
 }
-
 
 
 void add_to_bfs_space( State *S, int op, BfsNode *father ) {

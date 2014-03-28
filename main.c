@@ -847,7 +847,7 @@ int main( int argc, char *argv[] ) {
         printf("\n\nEnforced Hill-climbing failed !");
         printf("\nswitching to Best-first Search now.\n");
         reset_ff_states_for_multiple_purpose();
-        found_plan_for_multiple_purpose = do_best_first_search();
+        found_plan_for_multiple_purpose = do_best_first_search_for_multiple_purpose();
     }
     
     if ( gcmd_line.display_info >= 1 ) {

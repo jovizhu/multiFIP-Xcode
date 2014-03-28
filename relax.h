@@ -92,6 +92,7 @@ void print_fixpoint_result( void );
 
 
 int extract_1P( int max, Bool H_info );
+int extract_1P_for_multiple_purpose( int max, Bool H_info );
 int initialize_goals( int max );
 void achieve_goals( int time );
 void collect_H_info( void );
