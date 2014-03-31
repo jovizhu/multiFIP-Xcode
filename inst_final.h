@@ -38,14 +38,6 @@
  * of the user.
  */
 
-
-
-
-
-
-
-
-
 /*********************************************************************
  * File: inst_final.h
  * Description: headers for final domain representation functions
@@ -54,12 +46,6 @@
  * Author: Joerg Hoffmann 2000
  *
  *********************************************************************/
-
-
-
-
-
-
 
 #ifndef _INST_FINAL_H
 #define _INST_FINAL_H
@@ -71,8 +57,6 @@ void update_reachability_analysis_for_multiple_purpose( void );
 int fact_adress( void );
 void make_name_inst_table_from_NormOperator( Action *a, NormOperator *o, EasyTemplate *t );
 void make_name_inst_table_from_PseudoAction( Action *a, PseudoAction *pa );
-
-
 
 void collect_relevant_facts( void );
 void update_relevant_facts_for_multiple_purpose( void );
@@ -87,6 +71,8 @@ void create_final_actions_for_multiple_purpose (void);
 
 void build_connectivity_graph( void );
 void update_connectivity_graph_for_multiple_purpose ( void );
+void copy_connectivity_graph_for_multiple_purpose(void);
+void set_global_variables_for_multiple_purpose(void);
 
 
 

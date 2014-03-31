@@ -292,6 +292,9 @@ Fact grelevant_facts[MAX_RELEVANT_FACTS];
 int gnum_relevant_facts = 0;
 int gnum_pp_facts = 0;
 
+int gall_num_relevant_facts = 0;
+int gall_num_pp_facts = 0;
+
 /* the final actions and problem representation */
 Action *gactions;
 int gnum_actions;
@@ -343,29 +346,28 @@ int gnum_IV = 0;
 OpConn *gop_conn;
 int gnum_op_conn;
 
-/* jovi: add for multiple purpose, do not need anymore
-OpConn *gadd_op_conn;
-int gadd_num_op_conn;
-*/
+/* jovi: add for multiple purpose, do not need anymore*/
+OpConn *gall_op_conn;
+int gall_num_op_conn;
+
 /* one effects array ...
  */
 EfConn *gef_conn;
 int gnum_ef_conn;
 
-/* jovi: add for multiple purpose
-EfConn *gadd_ef_conn;
-int gadd_num_ef_conn;
-*/
+/* jovi: add for multiple purpose*/
+EfConn *gall_ef_conn;
+int gall_num_ef_conn;
+
 /* one facts array.
  */
 FtConn *gft_conn;
 int gnum_ft_conn;
 
-/* jovi: add for multiple purpose
-FtConn *gadd_ft_conn;
-int gadd_num_ft_conn;
+/* jovi: add for multiple purpose */
+FtConn *gall_ft_conn;
+int gall_num_ft_conn;
 
-*/
 /*******************
  * SEARCHING NEEDS *
  *******************/
@@ -786,6 +788,9 @@ int main( int argc, char *argv[] ) {
         printf("\n*  mul-fip: multiple purpose planning          *\n");
         printf("\n************************************************\n");
     }
+
+    set_global_variables_for_multiple_purpose();
+
     ftime(&start);
     update_reachability_analysis_for_multiple_purpose ();
     ftime(&end);
@@ -921,6 +926,9 @@ int main( int argc, char *argv[] ) {
         /* print_fip_plan_3( &gfipPlan, 0 ); */
     }
     /*****************************************************************************************/
+
+    output_planner_info();
+
     printf("\n\n");
     exit( 0 );
     
@@ -952,6 +960,28 @@ void output_planner_info( void ) {
     
 }
 
+void output_planner_info_for_multiple_purpose ( void ) {
+
+    printf( "\n\ntime spent: %7.3f seconds instantiating %d easy, %d hard action templates",
+           gadd_templ_time, gadd_num_easy_templates, gadd_num_hard_mixed_operators );
+    printf( "\n            %7.3f seconds reachability analysis, yielding %d facts and %d actions",
+           gadd_reach_time, gall_num_pp_facts, gall_num_actions );
+    printf( "\n            %7.3f seconds creating final representation with %d relevant facts",
+           gadd_relev_time, gall_num_relevant_facts );
+    printf( "\n            %7.3f seconds building connectivity graph",
+           gadd_conn_time );
+    printf( "\n            %7.3f seconds searching, evaluating %d states, to a max depth of %d",
+           gadd_search_time, gevaluated_states, gmax_search_depth );
+    printf( "\n            %7.3f seconds total time",
+           gadd_templ_time + gadd_reach_time + gadd_relev_time + gadd_conn_time + gadd_search_time );
+
+    printf("\n\n");
+
+    /*exit( 0 );*/
+
+    print_official_result();
+
+}
 
 FILE *out;
 
@@ -1121,4 +1151,6 @@ Bool process_command_line( int argc, char *argv[] ) {
     }
     return TRUE;
 }
+
+
 

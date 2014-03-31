@@ -1177,8 +1177,9 @@ extern int gadd_num_hard_templates;
  */
 extern Fact grelevant_facts[MAX_RELEVANT_FACTS];
 extern int gnum_relevant_facts;
+extern int gall_num_relevant_facts;
 extern int gnum_pp_facts;
-
+extern int gall_num_pp_facts;
 
 
 /* the final actions and problem representation
@@ -1201,23 +1202,23 @@ extern State gall_goal_state;
 /* one ops (actions) array ...
  */
 extern OpConn *gop_conn;
-extern OpConn *gadd_op_conn;
+extern OpConn *gall_op_conn;
 extern int gnum_op_conn;
-extern int gadd_num_op_conn;
+extern int gall_num_op_conn;
 
 /* one effects array ...
  */
 extern EfConn *gef_conn;
-extern EfConn *gadd_ef_conn;
+extern EfConn *gall_ef_conn;
 extern int gnum_ef_conn;
-extern int gadd_num_ef_conn;
+extern int gall_num_ef_conn;
 
 /* one facts array.
  */
 extern FtConn *gft_conn;
-extern FtConn *gadd_ft_conn;
+extern FtConn *gall_ft_conn;
 extern int gnum_ft_conn;
-extern int gadd_num_ft_conn;
+extern int gall_num_ft_conn;
 
 
 /*******************

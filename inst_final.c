@@ -390,19 +390,19 @@ void update_reachability_analysis_for_multiple_purpose ( void ) {
                         lneg[lp][adr] = 1;
                         luse[lp][adr] = 1;
                         
-                        if ( gnum_relevant_facts == MAX_RELEVANT_FACTS ) {
+                        if ( gall_num_relevant_facts == MAX_RELEVANT_FACTS ) {
                             printf("\n too many relevant facts! increase MAX_RELEVANT_FACTS (currently %d)\n\n ", MAX_RELEVANT_FACTS);
                             exit( 1 );
                         }
                         
-                        grelevant_facts[gnum_relevant_facts].predicate = lp;
+                        grelevant_facts[gall_num_relevant_facts].predicate = lp;
                         
                         for ( j = 0; j < garity[lp]; j++ ) {
-                            grelevant_facts[gnum_relevant_facts].args[j] = largs[j];
+                            grelevant_facts[gall_num_relevant_facts].args[j] = largs[j];
                         }
                         
-                        lindex[lp][adr] = gnum_relevant_facts;
-                        gnum_relevant_facts++;
+                        lindex[lp][adr] = gall_num_relevant_facts;
+                        gall_num_relevant_facts++;
                         fixpoint = FALSE;
                     }
                 }
@@ -473,16 +473,16 @@ void update_reachability_analysis_for_multiple_purpose ( void ) {
                         lneg[lp][adr] = 1;
                         luse[lp][adr] = 1;
                         
-                        if ( gnum_relevant_facts == MAX_RELEVANT_FACTS ) {
+                        if ( gall_num_relevant_facts == MAX_RELEVANT_FACTS ) {
                             printf("\ntoo many relevant facts! increase MAX_RELEVANT_FACTS (currently %d)\n\n", MAX_RELEVANT_FACTS);
                             exit( 1 );
                         }
-                        grelevant_facts[gnum_relevant_facts].predicate = lp;
+                        grelevant_facts[gall_num_relevant_facts].predicate = lp;
                         for ( k = 0; k < garity[lp]; k++ ) {
-                            grelevant_facts[gnum_relevant_facts].args[k] = largs[k];
+                            grelevant_facts[gall_num_relevant_facts].args[k] = largs[k];
                         }
-                        lindex[lp][adr] = gnum_relevant_facts;
-                        gnum_relevant_facts++;
+                        lindex[lp][adr] = gall_num_relevant_facts;
+                        gall_num_relevant_facts++;
                         fixpoint = FALSE;
                     } /* end if (!lpos[lp][adr]) */
                 } /* end for j < pae->num_adds */
@@ -505,6 +505,45 @@ void update_reachability_analysis_for_multiple_purpose ( void ) {
             had_add_hard_template[i] = TRUE;
         } /* endfor j < gnum_hard_template */
     }
+
+
+
+
+    gall_num_pp_facts = gnum_initial + gall_num_relevant_facts;
+
+    if ( gcmd_line.display_info == 118 ) {
+        printf("\nreachability analysys came up with:");
+
+        printf("\n\npossibly positive facts:");
+        for ( f = ginitial; f; f = f->next ) {
+            printf("\n");
+            print_Fact( f->fact );
+        }
+        for ( i = 0; i < gnum_relevant_facts; i++ ) {
+            printf("\n");
+            print_Fact( &(grelevant_facts[i]) );
+        }
+
+        printf("\n\nthis yields these %d action templates:", gnum_actions);
+        for ( i = 0; i < gnum_operators; i++ ) {
+            printf("\n\noperator %s:", goperators[i]->name);
+            for ( a = gactions; a; a = a->next ) {
+                if ( ( a->norm_operator && a->norm_operator->operator !=  goperators[i] ) ||
+                    ( a->pseudo_action && a->pseudo_action->operator !=  goperators[i] ) ) {
+                    continue;
+                }
+                printf("\ntemplate: ");
+                for ( j = 0; j < goperators[i]->number_of_real_params; j++ ) {
+                    printf("%s", gconstants[a->name_inst_table[j]]);
+                    if ( j < goperators[i]->num_vars-1 ) {
+                        printf(" ");
+                    }
+                }
+            }
+        }
+        printf("\n\n");
+    }
+
 }
 
 
@@ -590,6 +629,7 @@ void make_name_inst_table_from_PseudoAction( Action *a, PseudoAction *pa )
 
 /* counts effects for later allocation */
 int lnum_effects;
+int lall_num_effects;
 
 void collect_relevant_facts( void ) {
     
@@ -751,17 +791,17 @@ void update_relevant_facts_for_multiple_purpose ( void ) {
                     lneg[lp][adr] = 1;
                     if ( lpos[lp][adr] && !luse[lp][adr] ) {
                         luse[lp][adr] = 1;
-                        lindex[lp][adr] = gnum_relevant_facts;
-                        if ( gnum_relevant_facts == MAX_RELEVANT_FACTS ) {
+                        lindex[lp][adr] = gall_num_relevant_facts;
+                        if ( gall_num_relevant_facts == MAX_RELEVANT_FACTS ) {
                             printf("\nincrease MAX_RELEVANT_FACTS! (current value: %d)\n\n", MAX_RELEVANT_FACTS);
                             exit( 1 );
                         }
-                        grelevant_facts[gnum_relevant_facts].predicate = lp;
+                        grelevant_facts[gall_num_relevant_facts].predicate = lp;
                         for ( j = 0; j < garity[lp]; j++ ) {
-                            grelevant_facts[gnum_relevant_facts].args[j] = largs[j];
+                            grelevant_facts[gall_num_relevant_facts].args[j] = largs[j];
                         }
-                        lindex[lp][adr] = gnum_relevant_facts;
-                        gnum_relevant_facts++;
+                        lindex[lp][adr] = gall_num_relevant_facts;
+                        gall_num_relevant_facts++;
                     }
                 }
             }
@@ -779,17 +819,17 @@ void update_relevant_facts_for_multiple_purpose ( void ) {
                     lneg[lp][adr] = 1;
                     if ( lpos[lp][adr] && !luse[lp][adr] ) {
                         luse[lp][adr] = 1;
-                        lindex[lp][adr] = gnum_relevant_facts;
-                        if ( gnum_relevant_facts == MAX_RELEVANT_FACTS ) {
+                        lindex[lp][adr] = gall_num_relevant_facts;
+                        if ( gall_num_relevant_facts == MAX_RELEVANT_FACTS ) {
                             printf("\nincrease MAX_RELEVANT_FACTS! (current value: %d)\n\n", MAX_RELEVANT_FACTS);
                             exit( 1 );
                         }
-                        grelevant_facts[gnum_relevant_facts].predicate = lp;
+                        grelevant_facts[gall_num_relevant_facts].predicate = lp;
                         for ( j = 0; j < garity[lp]; j++ ) {
-                            grelevant_facts[gnum_relevant_facts].args[j] = largs[j];
+                            grelevant_facts[gall_num_relevant_facts].args[j] = largs[j];
                         }
-                        lindex[lp][adr] = gnum_relevant_facts;
-                        gnum_relevant_facts++;
+                        lindex[lp][adr] = gall_num_relevant_facts;
+                        gall_num_relevant_facts++;
                     }
                 }
             }
@@ -798,19 +838,19 @@ void update_relevant_facts_for_multiple_purpose ( void ) {
     
     if ( gcmd_line.display_info == 119 ) {
         printf("\n\nfacts selected as relevant:\n\n");
-        for ( i = 0; i < gnum_relevant_facts; i++ ) {
+        for ( i = 0; i < gall_num_relevant_facts; i++ ) {
             printf("\n%d: ", i);
             print_Fact( &(grelevant_facts[i]) );
         }
     }
     
-    lnum_effects = 0;
+    /*lnum_effects = 0;*/
     
     /* first make place for initial and goal states.
      * (one artificial fact might still be added here)
      */
-    make_state( &gadd_goal_state, gnum_relevant_facts + 1 );
-    gadd_goal_state.max_F = gnum_relevant_facts + 1;
+    make_state( &gadd_goal_state, gall_num_relevant_facts + 1 );
+    gadd_goal_state.max_F = gall_num_relevant_facts + 1;
     /* make_state( &ginitial_state, gnum_relevant_facts + 1 ); */
     /* ginitial_state.max_F = gnum_relevant_facts + 1; */
     
@@ -847,13 +887,34 @@ void update_relevant_facts_for_multiple_purpose ( void ) {
             print_ft_name( ginitial_state.F[i] );
             printf("\n");
         }
-        printf("\n\nfinal goal state is:\n\n");
-        for ( i = 0; i < ggoal_state.num_F; i++ ) {
-            print_ft_name( ggoal_state.F[i] );
+        printf("\n\nfinal additional goal state is:\n\n");
+        for ( i = 0; i < gadd_goal_state.num_F; i++ ) {
+            print_ft_name( gadd_goal_state.F[i] );
             printf("\n");
         }
     }
     
+    if (gcmd_line.display_info >= 1) {
+
+		for (a = gactions; a; a = a->next) {
+			if (!a->norm_operator && !a->pseudo_action) {
+				print_Action(a);
+			}
+		}
+
+		printf("\nDebugInfo: update_relevant_facts_for_multiple_purpose()\ninitial state is:");
+		for (i = 0; i < ginitial_state.num_F; i++) {
+			print_ft_name(ginitial_state.F[i]);
+			printf("\t");
+		}
+		printf("\n");
+		printf("\nDebugInfo: update_relevant_facts_for_multiple_purpose()\nfinal goal state is:");
+		for (i = 0; i < gadd_goal_state.num_F; i++) {
+			print_ft_name(gadd_goal_state.F[i]);
+			printf("\t");
+		}printf("\n");
+
+	}
 }
 
 
@@ -971,12 +1032,12 @@ void create_final_goal_state_for_multiple_purpose ( void ) {
     
     switch ( gadd_goal->connective ) {
         case OR:
-            if ( gnum_relevant_facts == MAX_RELEVANT_FACTS ) {
+            if ( gall_num_relevant_facts == MAX_RELEVANT_FACTS ) {
                 printf("\nincrease MAX_RELEVANT_FACTS! (current value: %d)\n\n",MAX_RELEVANT_FACTS);
                 exit( 1 );
             }
-            grelevant_facts[gnum_relevant_facts].predicate = -3;
-            gnum_relevant_facts++;
+            grelevant_facts[gall_num_relevant_facts].predicate = -3;
+            gall_num_relevant_facts++;
             for ( w = gadd_goal->sons; w; w = w->next ) {
                 tmp = new_Action();
                 if ( w->connective == AND ) {
@@ -1009,14 +1070,14 @@ void create_final_goal_state_for_multiple_purpose ( void ) {
                 tmp->effects[0].dels = NULL;
                 tmp->effects[0].num_dels = 0;
                 tmp->effects[0].adds = ( int * ) calloc( 1, sizeof( int ) );
-                tmp->effects[0].adds[0] = gnum_relevant_facts - 1;
+                tmp->effects[0].adds[0] = gall_num_relevant_facts - 1;
                 tmp->effects[0].num_adds = 1;
                 tmp->next = gadd_actions;
                 gadd_actions = tmp;
                 gadd_num_actions++;
-                lnum_effects++;
+                lall_num_effects++;
             } /* end for w = ggoal->sons */
-            ggoal_state.F[0] = gnum_relevant_facts - 1;
+            gadd_goal_state.F[0] = gall_num_relevant_facts - 1;
             gadd_goal_state.num_F = 1;
             break;
         case AND:
@@ -1500,7 +1561,7 @@ void create_final_actions_for_multiple_purpose ( void ) {
                 /* this effect is OK. go to next one in NormOp.
                  */
                 a->num_effects++;
-                lnum_effects++;
+                lall_num_effects++;
             }
             if ( ne ) {
                 /* we get here if one effect was faulty
@@ -1622,7 +1683,7 @@ void create_final_actions_for_multiple_purpose ( void ) {
                 
                 /* this effect is OK. go to next one in PseudoAction. */
                 a->num_effects++;
-                lnum_effects++;
+                lall_num_effects++;
             }
             if ( pae ) {
                 /* we get here if one effect was faulty
@@ -2121,11 +2182,16 @@ void update_connectivity_graph_for_multiple_purpose ( void ) {
      }
      */
     
+
+
     /* jovi: continue from gnum_actions */
-    n_op = gnum_actions;
+    n_op = gnum_actions; /**/
     n_ef = lnum_effects;
-    gnum_ft_conn = gnum_relevant_facts;
-    gnum_op_conn = gnum_actions;
+
+    gall_num_ft_conn = gall_num_relevant_facts;
+    gall_num_op_conn = gnum_actions+gadd_num_actions;
+
+    copy_connectivity_graph_for_multiple_purpose();
     
     for ( a = gadd_actions; a; a = a->next ) {
         
@@ -2510,4 +2576,80 @@ void update_connectivity_graph_for_multiple_purpose ( void ) {
     }
     
 }
+
+
+
+
+void copy_connectivity_graph_for_multiple_purpose(void) {
+
+	int i;
+
+	gall_ft_conn = (FtConn *) calloc(gall_num_ft_conn, sizeof(FtConn));
+	gall_op_conn = (OpConn *) calloc(gall_num_op_conn, sizeof(OpConn));
+	gall_ef_conn = (EfConn *) calloc(lall_num_effects, sizeof(EfConn));
+
+	for (i = 0; i < gnum_ft_conn; i++) {
+		gall_ft_conn[i].num_PC = gft_conn[i].num_PC;
+		gall_ft_conn[i].PC = gft_conn[i].PC;
+		gall_ft_conn[i].num_A = gft_conn[i].num_A;
+		gall_ft_conn[i].A = gft_conn[i].A;
+		gall_ft_conn[i].num_D = gft_conn[i].num_D;
+		gall_ft_conn[i].D = gft_conn[i].D;
+		gall_ft_conn[i].False = gft_conn[i].False;
+		gall_ft_conn[i].num_False = gft_conn[i].num_False;
+		gall_ft_conn[i].level = gft_conn[i].level;
+		gall_ft_conn[i].in_F = gft_conn[i].in_F;
+		gall_ft_conn[i].is_goal = gft_conn[i].is_goal;
+		gall_ft_conn[i].is_true = gft_conn[i].is_true;
+		gall_ft_conn[i].rand = gft_conn[i].rand;
+		gall_ft_conn[i].is_global_goal = gft_conn[i].is_global_goal;
+	}
+
+	for (i = 0; i < gnum_op_conn; i++) {
+		gall_op_conn[i].action = gop_conn[i].action;
+		gall_op_conn[i].E = gop_conn[i].E;
+		gall_op_conn[i].num_E = gop_conn[i].num_E;
+		gall_op_conn[i].is_in_A = gop_conn[i].is_in_A;
+		gall_op_conn[i].is_used = gop_conn[i].is_used;
+		gall_op_conn[i].is_in_H = gop_conn[i].is_in_H;
+		gall_op_conn[i].group = gop_conn[i].group;
+	}
+
+	for (i = 0; i < lnum_effects; i++) {
+		gall_ef_conn[i].PC = gef_conn[i].PC;
+		gall_ef_conn[i].num_PC = gef_conn[i].num_PC;
+		gall_ef_conn[i].A = gef_conn[i].A;
+		gall_ef_conn[i].num_A = gef_conn[i].num_A;
+		gall_ef_conn[i].D = gef_conn[i].D;
+		gall_ef_conn[i].num_D = gef_conn[i].num_D;
+		gall_ef_conn[i].I = gef_conn[i].num_I;
+		gall_ef_conn[i].removed = gef_conn[i].removed;
+		gall_ef_conn[i].level = gef_conn[i].level;
+		gall_ef_conn[i].in_E = gef_conn[i].in_E;
+		gall_ef_conn[i].num_active_PCs = gef_conn[i].num_active_PCs;
+		gall_ef_conn[i].ch = gef_conn[i].ch;
+		gall_ef_conn[i].in_plan = gef_conn[i].in_plan;
+	}
+}
+
+void set_global_variables_for_multiple_purpose(void) {
+
+	lall_num_effects = lnum_effects;
+	gall_num_relevant_facts = gnum_relevant_facts;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
